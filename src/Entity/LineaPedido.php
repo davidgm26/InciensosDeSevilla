@@ -21,7 +21,7 @@ class LineaPedido
     private ?string $precio = null;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
-    private ?string $precioLinea = null;
+    private ?float $precioLinea = null;
 
     #[ORM\ManyToOne(targetEntity: Producto::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -48,24 +48,24 @@ class LineaPedido
         return $this;
     }
 
-    public function getPrecioUnitario(): ?string
+    public function getPrecioUnitario(): ?float
     {
         return $this->precioUnitario;
     }
 
-    public function setPrecioUnitario(string $precioUnitario): static
+    public function setPrecioUnitario(float $precioUnitario): static
     {
         $this->precioUnitario = $precioUnitario;
 
         return $this;
     }
 
-    public function getPrecioLinea(): ?string
+    public function getPrecioLinea(): ?float
     {
         return $this->precioLinea;
     }
 
-    public function setPrecioLinea(string $precioLinea): static
+    public function setPrecioLinea(float $precioLinea): static
     {
         $this->precioLinea = $precioLinea;
 

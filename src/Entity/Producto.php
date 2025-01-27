@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductoRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Collection;
 
 #[ORM\Entity(repositoryClass: ProductoRepository::class)]
 #[ORM\Table(name:"producto", schema: "inciensosdesevilla")]
@@ -25,7 +25,7 @@ class Producto
     private ?string $url_foto = null;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
-    private ?string $precio = null;
+    private ?float $precio = null;
 
     #[ORM\Column]
     private ?int $stock = null;
@@ -85,12 +85,12 @@ class Producto
         return $this;
     }
 
-    public function getPrecio(): ?string
+    public function getPrecio(): ?float
     {
         return $this->precio;
     }
 
-    public function setPrecio(string $precio): static
+    public function setPrecio(float $precio): static
     {
         $this->precio = $precio;
 
