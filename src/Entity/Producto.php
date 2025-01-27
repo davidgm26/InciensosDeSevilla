@@ -24,8 +24,8 @@ class Producto
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $url_foto = null;
 
-    #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
-    private ?float $precio = null;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    private ?string $precio = null;
 
     #[ORM\Column]
     private ?int $stock = null;
@@ -85,12 +85,12 @@ class Producto
         return $this;
     }
 
-    public function getPrecio(): ?float
+    public function getPrecio(): ?string
     {
         return $this->precio;
     }
 
-    public function setPrecio(float $precio): static
+    public function setPrecio(string $precio): static
     {
         $this->precio = $precio;
 
@@ -132,6 +132,12 @@ class Producto
 
         return $this;
     }
+
+    public function getResenias(): Collection
+    {
+        return $this->resenias;
+    }
+
 
     public function addResenia(Resenia $resenia): static
     {

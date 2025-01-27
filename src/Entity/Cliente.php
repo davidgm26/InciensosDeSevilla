@@ -36,6 +36,36 @@ class Cliente
     #[ORM\JoinColumn(nullable: false, name: "id_usuario")]
     private ?Usuario $usuario = null;
 
+    #[ORM\OneToMany(targetEntity: Pedido::class, mappedBy: 'cliente', cascade: ['persist', 'remove'])]
+    private Collection $pedidos;
+
+    public function getPedidos(): Collection
+    {
+        return $this->pedidos;
+    }
+
+    public function addPedido(Pedido $pedido): static
+    {
+        if (!$this->pedidos->contains($pedido)) {
+            $this->pedidos->add($pedido);
+            $pedido->setCliente($this); // Asegura la relación bidireccional
+        }
+
+        return $this;
+    }
+
+    public function removePedido(Pedido $pedido): static
+    {
+        if ($this->pedidos->removeElement($pedido)) {
+            // Borra la relación inversa
+            if ($pedido->getCliente() === $this) {
+                $pedido->setCliente(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

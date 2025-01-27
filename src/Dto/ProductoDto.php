@@ -26,8 +26,7 @@ class ProductoDto
         $dto->precio = $producto->getPrecio();
         $dto->nombre = $producto->getNombre();
         $dto->descripcion = $producto->getDescripcion();
-        $dto ->totalResenias = $producto->get
-
+        $dto ->totalResenias = sizeof($producto->getResenias());
         return $dto;
     }
 
