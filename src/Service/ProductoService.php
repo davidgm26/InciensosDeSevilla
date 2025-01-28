@@ -23,4 +23,9 @@ class ProductoService
         return $this->productoRepository->findAll();
     }
 
+    public function findAllProductosByCategory(string $category): array
+    {
+        return $this->productoRepository->findBy(['categoria' => $category]);
+    }
+
 }

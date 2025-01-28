@@ -2,6 +2,7 @@
 
 namespace App\Dto;
 
+use App\Entity\Categoria;
 use App\Entity\Producto;
 
 class ProductoDto
@@ -12,13 +13,11 @@ class ProductoDto
 
     private $descripcion;
 
+    private $categoria;
+
     private $imagen;
 
     private $totalResenias;
-
-
-
-
 
     public static function createProductoDto(Producto $producto) : ProductoDto{
 
@@ -27,6 +26,8 @@ class ProductoDto
         $dto->nombre = $producto->getNombre();
         $dto->descripcion = $producto->getDescripcion();
         $dto ->totalResenias = sizeof($producto->getResenias());
+        $dto->categoria = $producto->getCategoria()->getNombre();
+        $dto->imagen= $producto->getUrlFoto();
         return $dto;
     }
 
@@ -54,5 +55,12 @@ class ProductoDto
     {
         return $this->totalResenias;
     }
+
+    public function getCategoria(): ?string
+    {
+        return $this->categoria;
+    }
+
+
 
 }
