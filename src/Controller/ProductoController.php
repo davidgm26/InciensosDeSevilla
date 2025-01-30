@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Dto\ProductoDto;
+use App\Entity\Categoria;
 use App\Entity\Producto;
 use App\Repository\ProductoRepository;
 use App\Service\ProductoService;
@@ -68,8 +69,13 @@ final class ProductoController extends AbstractController
     }
 
     #[Route('/categoria/{id}', name: 'get_producto_categoria', methods: ['GET'])]
-    public function getAllProductosByCategoria()
+    public function getAllProductosByCategoria(Categoria $categoria):JsonResponse
     {
+       $lista_productos =$this->productoService->findAllProductosByCategory($categoria);
+       $lista_productos_dto=array_map(fn($producto)=> ProductoDto::createProductoDto($producto), $lista_productos);
 
+       return $this->json($lista_productos_dto);
     }
+
+        
 }

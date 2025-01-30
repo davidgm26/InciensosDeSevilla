@@ -2,11 +2,12 @@
 
 namespace App\Dto;
 
-use App\Entity\Categoria;
 use App\Entity\Producto;
 
 class ProductoDto
 {
+    private $id;
+
     private $precio;
 
     private $nombre;
@@ -22,6 +23,7 @@ class ProductoDto
     public static function createProductoDto(Producto $producto) : ProductoDto{
 
         $dto = new self();
+        $dto->id = $producto->getId();
         $dto->precio = $producto->getPrecio();
         $dto->nombre = $producto->getNombre();
         $dto->descripcion = $producto->getDescripcion();
@@ -60,6 +62,12 @@ class ProductoDto
     {
         return $this->categoria;
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
 
 
 

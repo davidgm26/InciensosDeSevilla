@@ -119,7 +119,9 @@
 	
 	-- INSERT INTO PRODUCTO
 	
-INSERT INTO inciensosdesevilla.producto (nombre, descripcion, precio, stock, valoracion, id_categoria, url_foto) VALUES ('¡A la Gloria!', 'Incienso cofrade de aroma cítrico, color azul cielo y humo intenso', 4.99, 45, 4.2, 1, 'https://inciensosdesevilla.es/173-large_default/a-la-gloria.jpg');
+/*
+ *
+ * INSERT INTO inciensosdesevilla.producto (nombre, descripcion, precio, stock, valoracion, id_categoria, url_foto) VALUES ('¡A la Gloria!', 'Incienso cofrade de aroma cítrico, color azul cielo y humo intenso', 4.99, 45, 4.2, 1, 'https://inciensosdesevilla.es/173-large_default/a-la-gloria.jpg');
 
 INSERT INTO inciensosdesevilla.producto (nombre, descripcion, precio, stock, valoracion, id_categoria, url_foto) VALUES ('Arco del Postigo', 'Incienso de aroma muy cofrade inspirado por el gestor de la mejor cuenta cofrade en redes sociales', 4.50, 32, 4.5, 1, 'https://inciensosdesevilla.es/174-large_default/arco-del-postigo.jpg');
 
@@ -179,6 +181,9 @@ INSERT INTO inciensosdesevilla.producto (nombre, descripcion, precio, stock, val
 
 INSERT INTO inciensosdesevilla.producto (nombre, descripcion, precio, stock, valoracion, id_categoria, url_foto) VALUES ('Aladino', 'Incensario de barro pintado a mano en color metalizado, por su aspecto recuerda a la lampara de aladino',4.99,50,4,2,'https://inciensosdesevilla.es/831-large_default/aladino.jpg');
 	
+ *  */
+
+
 	SELECT * FROM inciensosdesevilla.producto p 
 	
 	

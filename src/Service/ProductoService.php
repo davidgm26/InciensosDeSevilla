@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Categoria;
 use App\Entity\Producto;
 use App\Repository\ProductoRepository;
 
@@ -23,7 +24,7 @@ class ProductoService
         return $this->productoRepository->findAll();
     }
 
-    public function findAllProductosByCategory(string $category): array
+    public function findAllProductosByCategory(Categoria $category): array
     {
         return $this->productoRepository->findBy(['categoria' => $category]);
     }
