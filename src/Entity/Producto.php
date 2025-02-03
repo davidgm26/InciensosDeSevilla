@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProductoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,12 +41,21 @@ class Producto
     #[ORM\OneToMany(mappedBy: 'producto', targetEntity: Resenia::class, cascade: ['persist', 'remove'])]
     private Collection $resenias;
 
-
+    public function __construct()
+    {
+        $this->resenias = new ArrayCollection();  // Inicializamos la colección
+    }
 
     // Getters y setters
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getUrlFoto(): ?string

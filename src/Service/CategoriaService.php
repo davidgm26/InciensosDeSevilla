@@ -14,4 +14,9 @@ class CategoriaService
     {
         return $this->categoriaRepository->findAll();
     }
+
+    public function findCategoriaById(int $id)
+    {
+        return $this->categoriaRepository->findCategoriaById($id);
+    }
 }

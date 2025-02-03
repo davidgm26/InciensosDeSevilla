@@ -24,11 +24,11 @@ final class CategoriaController extends AbstractController
         return $this->json($listaCategoriasDto);
     }
 
-    #[Route('/{id}', name: 'app_categoria_show', methods: ['GET'])]
-    public function getProductById(int $id): JsonResponse
-    {
-
-    }
+//    #[Route('/{id}', name: 'app_categoria_show', methods: ['GET'])]
+//    public function getProductById(int $id): JsonResponse
+//    {
+//
+//    }
 
 
 }
