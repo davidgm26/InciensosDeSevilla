@@ -29,4 +29,9 @@ class ProductoService
         return $this->productoRepository->findBy(['categoria' => $category]);
     }
 
+    public function findProductosLimitados(): array
+    {
+        return $this->productoRepository->findProductosLimitados();
+    }
+
 }

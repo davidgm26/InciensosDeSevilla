@@ -186,6 +186,10 @@ INSERT INTO inciensosdesevilla.producto (nombre, descripcion, precio, stock, val
 
 	SELECT * FROM inciensosdesevilla.producto p 
 	
+	        SELECT p
+        FROM inciensosdesevilla.Producto p
+        WHERE p.id_categoria = 1
+        ORDER BY p.precio
 	
 	
 	

@@ -32,6 +32,15 @@ final class ProductoController extends AbstractController
         return $this->json($lista_dtos);
     }
 
+    #[Route('/limitados', name: 'get_productos_limitados', methods: ['GET'])]
+    public function getLimitedProductos(): JsonResponse
+    {
+        $lista_productos = $this->productoService->findProductosLimitados();
+        $lista_productos_dto=array_map(fn($producto)=> ProductoDto::createProductoDto($producto), $lista_productos);
+        return $this->json($lista_productos_dto);
+
+    }
+
     #[Route('/{id}', name: 'get_producto_byid', methods: ['GET'])]
     public function getProductoById(Producto $producto): JsonResponse
     {
@@ -76,6 +85,8 @@ final class ProductoController extends AbstractController
 
        return $this->json($lista_productos_dto);
     }
+
+
 
         
 }
