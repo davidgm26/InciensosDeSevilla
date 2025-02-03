@@ -2,17 +2,51 @@
 
 namespace App\Service;
 
+use App\Entity\Cliente;
+use App\Entity\Usuario;
 use App\Repository\ClienteRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use http\Env\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ClienteService
 {
 
     public function __construct(
         private ClienteRepository $clienteRepository,
+        private UserPasswordHasherInterface $passwordHasher,
+        private EntityManagerInterface $entityManager
     ){}
 
-    public function findAllClientes(): array
+    public function crearCliente(array $request,Usuario $usuario): Cliente
     {
-        return $this->clienteRepository->findAll();
+        $cliente = new Cliente();
+
+        $cliente->setNombre($request['nombre']);
+        $cliente->setApellido($request['apellido']);
+        $cliente->setDireccion($request['direccion']);
+
+        $usuariotlf = $this->clienteRepository->findByTelefono($request['telefono']);
+        if($usuariotlf){
+            throw new \Exception("Ya existe un usuario con ese telefono");
+        }
+        $usuarioDni = $this->clienteRepository->findByDni($request['dni']);
+        if($usuarioDni){
+            throw new \Exception("Ya existe un usuario con ese DNI");
+        }
+        $usuarioMail = $this->clienteRepository->findByCorreo($request['correo']);
+        if($usuarioMail){
+            throw new \Exception("Ya existe un usuario con ese correo");
+        }
+
+        $cliente->setTelefono($request['telefono']);
+        $cliente->setDni($request['dni']);
+        $cliente->setCorreo($request['correo']);
+        $cliente->setUsuario($usuario);
+
+        $this->entityManager->persist($cliente);
+        $this->entityManager->flush();
+
+        return $cliente;
     }
 }
