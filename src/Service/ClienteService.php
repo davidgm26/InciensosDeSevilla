@@ -6,7 +6,6 @@ use App\Entity\Cliente;
 use App\Entity\Usuario;
 use App\Repository\ClienteRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Env\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ClienteService
@@ -14,7 +13,6 @@ class ClienteService
 
     public function __construct(
         private ClienteRepository $clienteRepository,
-        private UserPasswordHasherInterface $passwordHasher,
         private EntityManagerInterface $entityManager
     ){}
 
@@ -23,7 +21,7 @@ class ClienteService
         $cliente = new Cliente();
 
         $cliente->setNombre($request['nombre']);
-        $cliente->setApellido($request['apellido']);
+        $cliente->setApellido($request['apellidos']);
         $cliente->setDireccion($request['direccion']);
 
         $usuariotlf = $this->clienteRepository->findByTelefono($request['telefono']);
