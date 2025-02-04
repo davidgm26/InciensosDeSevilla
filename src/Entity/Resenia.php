@@ -17,13 +17,13 @@ class Resenia
     #[ORM\Column(length: 50)]
     private ?string $texto;
 
-    #[ORM\ManyToOne(targetEntity: Cliente::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Cliente::class, inversedBy: 'resenias')]
+    #[ORM\JoinColumn(nullable: false, name: "id_cliente")]
     private ?Cliente $cliente;
 
 
     #[ORM\ManyToOne(targetEntity: Producto::class, inversedBy: 'resenias')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, name: "id_producto")]
     private ?Producto $producto = null;
 
     public function getId(): ?int

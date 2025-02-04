@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\CategoriaResponse;
 use App\Repository\CategoriaRepository;
 use App\Service\CategoriaService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,17 +15,20 @@ final class CategoriaController extends AbstractController
         private CategoriaService $categoriaService
     ){}
 
-    #[Route('/all', name: 'app_categoria_all', methods: ['GET'])]
+    #[Route('/all', name: 'get_all_categoria', methods: ['GET'])]
     public function getAll(): JsonResponse
     {
-        $listaCatorias =  $this->categoriaService->findAllCategorias();
-        return $this->json($listaCatorias);
+        $listaCategorias =  $this->categoriaService->findAllCategorias();
+        $listaCategoriasDto = array_map(fn($cat) => CategoriaResponse::createCategoriaResponse($cat), $listaCategorias);
+
+        return $this->json($listaCategoriasDto);
     }
 
-    #[Route('/{id}', name: 'app_categoria_show', methods: ['GET'])]
-    public function getProductById(int $id): JsonResponse{
-
-    }
+//    #[Route('/{id}', name: 'app_categoria_show', methods: ['GET'])]
+//    public function getProductById(int $id): JsonResponse
+//    {
+//
+//    }
 
 
 }

@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Service;
+
+use App\Entity\Usuario;
+use App\Repository\CategoriaRepository;
+use App\Repository\UsuarioRepository;
+use Doctrine\DBAL\Exception;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
+class UsuarioService
+{
+    public function __construct(
+        private UsuarioRepository $usuarioRepository,
+        private ClienteService $clienteService,
+        private UserPasswordHasherInterface $passwordHasher,
+        private EntityManagerInterface $entityManager
+    ) {}
+
+    public function registrarUsuario(array $usuario)
+    {
+        if ($usuario['rol']==1){
+            $user = $this->crearUsuario($usuario);
+            $user->setRol(\Rol::Administrador);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            return $user;
+        }else if($usuario['rol']==2){
+            $user = $this->crearUsuario($usuario);
+            $user->setRol(\Rol::Cliente);
+            $this->entityManager->persist($user);
+            $this->clienteService->crearCliente($usuario,$user);
+            $this->entityManager->flush();
+            return $user;
+        }
+    }
+
+    public function crearUsuario(array $data): ?Usuario
+    {
+        $usuarioBuscado = $this->usuarioRepository->findByUsername($data['username']);
+        if ($usuarioBuscado){
+            throw new \Exception("El nombre de usuario ya existe");
+        }
+        $user = new Usuario();
+        $user->setUsername($data['username']);
+        $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
+        return $user;
+    }
+}

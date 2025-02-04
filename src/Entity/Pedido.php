@@ -20,7 +20,7 @@ class Pedido
     private ?\DateTimeInterface $fecha;
 
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
-    private ?string $total;
+    private ?float $total;
 
     #[ORM\ManyToOne(targetEntity: Cliente::class, inversedBy: "pedidos")]
     #[ORM\JoinColumn(nullable: false)]
@@ -55,12 +55,12 @@ class Pedido
         return $this;
     }
 
-    public function getTotal(): ?string
+    public function getTotal(): ?float
     {
         return $this->total;
     }
 
-    public function setTotal(string $total): static
+    public function setTotal(float $total): static
     {
         $this->total = $total;
 

@@ -16,6 +16,11 @@ class CategoriaRepository extends ServiceEntityRepository
         parent::__construct($registry, Categoria::class);
     }
 
+    public function findCategoriaById(int $id): ?Categoria
+    {
+        return parent::findBy('id', $id);
+    }
+
     //    /**
     //     * @return Categoria[] Returns an array of Categoria objects
     //     */
