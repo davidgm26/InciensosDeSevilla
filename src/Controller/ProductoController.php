@@ -69,12 +69,8 @@ final class ProductoController extends AbstractController
     public function editProducto(Request $request, Producto $producto , EntityManager $entityManager): JsonResponse
     {
         $json = json_decode($request->getContent(), true);
-        $producto->setNombre($json['nombre']);
-        $producto->setDescripcion($json['descripcion']);
-        $producto->setPrecio($json['precio']);
-
-        $entityManager->flush();
-        return $this->json($producto);
+        $productoMod = $this->productoService->editProducto($producto, $json);
+        return $this->json($productoMod);
     }
 
     #[Route('/categoria/{id}', name: 'get_producto_categoria', methods: ['GET'])]
@@ -86,6 +82,12 @@ final class ProductoController extends AbstractController
        return $this->json($lista_productos_dto);
     }
 
+    #[Route('/{id}', name: 'borrar_producto', methods: ['DELETE'])]
+    public function deleteProducto(Producto $producto): JsonResponse
+    {
+        $this->productoService->deleteProducto($producto);
+        return $this->json("Producto borrado con éxito", 204);
+    }
 
 
         
