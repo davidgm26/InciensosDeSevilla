@@ -17,6 +17,6 @@ class CategoriaService
 
     public function findCategoriaById(int $id)
     {
-        return $this->categoriaRepository->findCategoriaById($id);
+        return $this->categoriaRepository->find($id);
     }
 }

@@ -20,7 +20,6 @@ final class ProductoController extends AbstractController
         private ProductoService $productoService,
     )
     {}
-
     #[Route('/all', name:'get_all_productos', methods: ['GET'])]
     public function getAll(): JsonResponse
     {
@@ -64,13 +63,13 @@ final class ProductoController extends AbstractController
 
         return $this->json($producto);
     }
-
-    #[Route('/{id}', name: 'editar_producto', methods: ['PUT'])]
-    public function editProducto(Request $request, Producto $producto , EntityManager $entityManager): JsonResponse
+    #[Route('/editar/{id}', name: 'editar_producto', methods: ['PUT'])]
+    public function editProducto(Request $request, Producto $producto): JsonResponse
     {
         $json = json_decode($request->getContent(), true);
         $productoMod = $this->productoService->editProducto($producto, $json);
-        return $this->json($productoMod);
+        $productoDto = ProductoDto::createProductoDto($productoMod);
+        return $this->json($productoDto);
     }
 
     #[Route('/categoria/{id}', name: 'get_producto_categoria', methods: ['GET'])]
@@ -78,7 +77,6 @@ final class ProductoController extends AbstractController
     {
        $lista_productos =$this->productoService->findAllProductosByCategory($categoria);
        $lista_productos_dto=array_map(fn($producto)=> ProductoDto::createProductoDto($producto), $lista_productos);
-
        return $this->json($lista_productos_dto);
     }
 

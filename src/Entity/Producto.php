@@ -6,6 +6,7 @@ use App\Repository\ProductoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\Entity(repositoryClass: ProductoRepository::class)]
 #[ORM\Table(name:"producto", schema: "inciensosdesevilla")]
@@ -38,8 +39,11 @@ class Producto
     #[ORM\JoinColumn(nullable: false, name: "id_categoria")]
     private ?Categoria $categoria = null;
 
-    #[ORM\OneToMany(mappedBy: 'producto', targetEntity: Resenia::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: "producto", targetEntity: Resenia::class)]
     private Collection $resenias;
+
+    #[ORM\Column]
+    private ?bool $activo;
 
     public function __construct()
     {
@@ -73,6 +77,16 @@ class Producto
         $this->url_foto = $url;
 
         return $this;
+    }
+
+    public function getActivo(): ?bool
+    {
+        return $this->activo;
+    }
+
+    public function setActivo(?bool $activo): void
+    {
+        $this->activo = $activo;
     }
 
 
