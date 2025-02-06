@@ -261,6 +261,9 @@
 	(2, 'Excelente calidad y una fragancia que envuelve todo el ambiente de forma sutil.', 108);
 
 		SELECT * FROM inciensosdesevilla.producto p ;
+		
+		SELECT * FROM inciensosdesevilla.cliente c ;
+
 	
 	    SELECT *
         FROM inciensosdesevilla.Producto p
