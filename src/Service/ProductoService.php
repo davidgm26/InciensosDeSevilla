@@ -30,6 +30,12 @@ class ProductoService
         return $this->productoRepository->findAll();
     }
 
+    public function findAllProductosActivosByCategory($categoria): array
+    {
+
+        return $this->productoRepository->findAllActivosByCategory($categoria);
+    }
+
     public function findAllProductosByCategory(Categoria $category): array
     {
         return $this->productoRepository->findBy(['categoria' => $category]);
@@ -65,10 +71,11 @@ class ProductoService
     }
 
     public function modificarEstado($producto){
-        $producto->setEstado(!$producto->getEstado());
-        $this->entityManager->persist($producto);
+        $prodBuscado = $this->productoRepository->find($producto->getId());
+        $prodBuscado->setActivo(!$prodBuscado->getActivo());
+        $this->entityManager->persist($prodBuscado);
         $this->entityManager->flush();
-        return $producto;
+        return $prodBuscado;
     }
 
 
