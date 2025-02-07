@@ -14,7 +14,7 @@ class Resenia
     #[ORM\Column]
     private ?int $id;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 500)]
     private ?string $texto;
 
     #[ORM\ManyToOne(targetEntity: Cliente::class, inversedBy: 'resenias')]

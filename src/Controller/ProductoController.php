@@ -20,7 +20,6 @@ final class ProductoController extends AbstractController
         private ProductoService $productoService,
     )
     {}
-
     #[Route('/all', name:'get_all_productos', methods: ['GET'])]
     public function getAll(): JsonResponse
     {
@@ -32,6 +31,23 @@ final class ProductoController extends AbstractController
         return $this->json($lista_dtos);
     }
 
+
+    #[Route('/all/activos/categoria/{id}', name:'get_all_productos', methods: ['GET'])]
+    public function getAllActivos(Categoria $categoria): JsonResponse
+    {
+        $lista_productos = $this->productoService->findAllProductosActivosByCategory($categoria);
+        $lista_dtos = array_map(fn($producto)=> ProductoDto::createProductoDto($producto), $lista_productos);
+
+        return $this->json($lista_dtos);
+    }
+
+    #[Route('/categoria/{id}', name: 'get_producto_categoria', methods: ['GET'])]
+    public function getAllProductosByCategoria(Categoria $categoria):JsonResponse
+    {
+       $lista_productos =$this->productoService->findAllProductosByCategory($categoria);
+       $lista_productos_dto=array_map(fn($producto)=> ProductoDto::createProductoDto($producto), $lista_productos);
+       return $this->json($lista_productos_dto);
+    }
     #[Route('/limitados', name: 'get_productos_limitados', methods: ['GET'])]
     public function getLimitedProductos(): JsonResponse
     {
@@ -51,42 +67,39 @@ final class ProductoController extends AbstractController
     #[Route('/new', name: 'create_producto', methods: ['POST'])]
     public function createProducto(Request $request, EntityManager $entityManager): JsonResponse
     {
-
-
         $producto = new Producto();
         $json = json_decode($request->getContent(), true);
         $producto->setNombre($json['nombre']);
         $producto->setDescripcion($json['descripcion']);
         $producto->setPrecio($json['precio']);
-
         $entityManager->persist($producto);
         $entityManager->flush();
-
         return $this->json($producto);
     }
-
-    #[Route('/{id}', name: 'editar_producto', methods: ['PUT'])]
-    public function editProducto(Request $request, Producto $producto , EntityManager $entityManager): JsonResponse
+    #[Route('/editar/{id}', name: 'editar_producto', methods: ['PUT'])]
+    public function editProducto(Request $request, Producto $producto): JsonResponse
     {
         $json = json_decode($request->getContent(), true);
-        $producto->setNombre($json['nombre']);
-        $producto->setDescripcion($json['descripcion']);
-        $producto->setPrecio($json['precio']);
-
-        $entityManager->flush();
-        return $this->json($producto);
+        $productoMod = $this->productoService->editProducto($producto, $json);
+        $productoDto = ProductoDto::createProductoDto($productoMod);
+        return $this->json($productoDto);
     }
 
-    #[Route('/categoria/{id}', name: 'get_producto_categoria', methods: ['GET'])]
-    public function getAllProductosByCategoria(Categoria $categoria):JsonResponse
+
+    #[Route('/{id}', name: 'borrar_producto', methods: ['DELETE'])]
+    public function deleteProducto(Producto $producto): JsonResponse
     {
-       $lista_productos =$this->productoService->findAllProductosByCategory($categoria);
-       $lista_productos_dto=array_map(fn($producto)=> ProductoDto::createProductoDto($producto), $lista_productos);
+        $this->productoService->deleteProducto($producto);
+        return $this->json("Producto borrado con éxito", 204);
+    }
 
-       return $this->json($lista_productos_dto);
+    #[Route('/status/{id}', name:  'cambiar_estado_producto', methods: ['PUT'])]
+    public function cambiarVisibilidad(Producto $producto):JsonResponse
+    {
+        $prodCambiado = ProductoDto::createProductoDto($this->productoService->modificarEstado($producto));
+        return $this->json($prodCambiado);
     }
 
 
 
-        
 }

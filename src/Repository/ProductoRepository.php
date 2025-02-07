@@ -43,6 +43,19 @@ class ProductoRepository extends ServiceEntityRepository
         return array_slice($productos, 0, 9);
     }
 
+    public function findAllActivosByCategory($categoria): array
+    {
+        $productos = $this->createQueryBuilder('p')
+            ->where('p.activo = true')
+            ->andWhere('p.categoria = :categoria')
+            ->setParameter('categoria', $categoria)
+            ->getQuery()
+            ->getResult();
+
+        return $productos;
+    }
+
+
 
 //    public function getProductosLimitados()
 //    {

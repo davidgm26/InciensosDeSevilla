@@ -20,6 +20,8 @@ class ProductoDto
 
     private $totalResenias;
 
+    private $activo;
+
     public static function createProductoDto(Producto $producto) : ProductoDto{
 
         $dto = new self();
@@ -30,6 +32,7 @@ class ProductoDto
         $dto ->totalResenias = sizeof($producto->getResenias());
         $dto->categoria = $producto->getCategoria()->getNombre();
         $dto->imagen= $producto->getUrlFoto();
+        $dto->activo= $producto->getActivo();
         return $dto;
     }
 
@@ -66,6 +69,11 @@ class ProductoDto
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getActivo()
+    {
+        return $this->activo;
     }
 
 
