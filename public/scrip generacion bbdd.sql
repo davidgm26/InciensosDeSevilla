@@ -112,7 +112,11 @@
 	
 	INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('admin','admin',TRUE,1);
 	INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('antonio','1234',TRUE,2);
-		INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('martin','1234',TRUE,2);
+	INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('martin','1234',TRUE,2);
+	INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('miguel','1234',TRUE,2);
+	INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('Sara','1234',TRUE,2);
+	INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('Elena','1234',TRUE,2);
+
 
 	
 	
@@ -120,6 +124,9 @@
 	
 	INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('antoniomastin@gmail.com','Calle Condes de Bustillo , 41','26214215L',2,'Antonio','Martin Gonzalez','696325014');
 	INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('migueldom@gmail.com','Calle Condes de Barcelona, 41','54286301L',2,'Miguel','Dominguez Marin','696325016');
+	INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('martin@gmail.com','Calle Sevilla, 1','54286391L',2,'Martin','Matos Marin','696325066');
+	INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('sara@gmail.com','Calle Barcelona, 4','54286371L',2,'Sara','Romero Ortiz','696325036');
+	INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('elena@gmail.com','Calle Segovia, 6','54286303L',2,'Elena','Montes Marin','696325056');
 
 	-- INSERT INTO PRODUCTO
 	
@@ -259,17 +266,67 @@
 	(2, 'Huele muy bien, aunque esperaba que fuera un poco más fuerte. Aún así, es una buena compra.', 106),
 	(1, 'Un incienso con notas dulces y especiadas que lo hacen único. Volveré a comprarlo.', 107),
 	(2, 'Excelente calidad y una fragancia que envuelve todo el ambiente de forma sutil.', 108);
+		
+		
+		-- Insertar pedidos en la tabla PEDIDO
+INSERT INTO INCIENSOSDESEVILLA.PEDIDO (fecha, total, id_cliente, estado) VALUES
+('2025-02-07', 110.70, 1, 1),
+('2025-02-07', 175.45, 2, 2),
+('2025-02-07', 210.85, 3, 3),
+('2025-02-07', 98.20, 4, 1),
+('2025-02-07', 260.55, 5, 2);
+
+-- Insertar líneas de pedido en la tabla LINEAPEDIDO
+INSERT INTO INCIENSOSDESEVILLA.LINEAPEDIDO (id_producto, cantidad, precio_unitario, precio_linea, id_pedido) VALUES
+-- Pedido 1
+(5, 2, 22.90, 45.80, 1),
+(12, 1, 35.50, 35.50, 1),
+(8, 1, 29.40, 29.40, 1),
+
+-- Pedido 2
+(15, 3, 40.00, 120.00, 2),
+(21, 2, 27.75, 55.50, 2),
+
+-- Pedido 3
+(25, 2, 50.25, 100.50, 3),
+(33, 1, 65.20, 65.20, 3),
+(40, 1, 45.15, 45.15, 3),
+
+-- Pedido 4
+(30, 2, 24.10, 48.20, 4),
+(11, 2, 25.00, 50.00, 4),
+
+-- Pedido 5
+(45, 4, 30.15, 120.60, 5),
+(50, 3, 46.65, 139.95, 5);
+
 
 		SELECT * FROM inciensosdesevilla.producto p ;
 		
 		SELECT * FROM inciensosdesevilla.cliente c ;
+		
+		SELECT * FROM inciensosdesevilla.pedido p ;
 
 	
-	    SELECT *
-        FROM inciensosdesevilla.Producto p
-        WHERE p.id_categoria = 1
-        ORDER BY p.precio;
-	
+		SELECT 
+		    p.id AS pedido_id,
+		    c.nombre AS cliente_nombre,
+		    c.apellido AS cliente_apellido,
+		    p.fecha,
+		    p.total AS total_pedido,
+		    lp.id AS linea_pedido_id,
+		    pr.nombre AS producto_nombre,
+		    lp.cantidad,
+		    lp.precio_unitario,
+		    lp.precio_linea
+		FROM INCIENSOSDESEVILLA.PEDIDO p
+		JOIN INCIENSOSDESEVILLA.CLIENTE c ON p.id_cliente = c.id
+		JOIN INCIENSOSDESEVILLA.LINEAPEDIDO lp ON p.id = lp.id_pedido
+		JOIN INCIENSOSDESEVILLA.PRODUCTO pr ON lp.id_producto = pr.id
+		WHERE p.id = 12
+		ORDER BY p.id, lp.id;
+
+	    
 	
 	
 	

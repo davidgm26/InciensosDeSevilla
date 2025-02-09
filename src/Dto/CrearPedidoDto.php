@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Dto;
+
+class CrearPedidoDto
+{
+    private $idCliente;
+    private $lineasPedidoDto;
+    private $fecha;
+    private $total;
+
+    public function getIdCliente()
+    {
+        return $this->idCliente;
+    }
+
+
+    public function setIdCliente($idCliente): void
+    {
+        $this->idCliente = $idCliente;
+    }
+
+
+    public function getLineasPedidoDto()
+    {
+        return $this->lineasPedidoDto;
+    }
+
+
+    public function setLineasPedidoDto($lineasPedidoDto): void
+    {
+        $this->lineasPedidoDto = $lineasPedidoDto;
+    }
+
+
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+
+    public function setFecha($fecha): void
+    {
+        $this->fecha = $fecha;
+    }
+
+
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    public function setTotal($total): void
+    {
+        $this->total = $total;
+    }
+
+
+
+}
