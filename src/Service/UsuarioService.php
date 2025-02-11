@@ -22,13 +22,13 @@ class UsuarioService
     {
         if ($usuario['rol']==1){
             $user = $this->crearUsuario($usuario);
-            $user->setRol(\Rol::Administrador);
+            $user->setRol('ROLE_ADMIN');
             $this->entityManager->persist($user);
             $this->entityManager->flush();
             return $user;
         }else if($usuario['rol']==2){
             $user = $this->crearUsuario($usuario);
-            $user->setRol(\Rol::Cliente);
+            $user->setRol("ROLE_CLIENTE");
             $this->entityManager->persist($user);
             $this->clienteService->crearCliente($usuario,$user);
             $this->entityManager->flush();
