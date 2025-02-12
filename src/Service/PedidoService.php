@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Dto\CrearLineaPedidoDto;
 use App\Entity\Pedido;
+use App\Entity\Usuario;
 use App\Repository\PedidoRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,10 +38,10 @@ class PedidoService
         return $this->pedidoRepository->findBy(['cliente' => $idCliente]);
     }
 
-    public function createPedido(array $data): Pedido
+    public function createPedido(array $data, Usuario $usuario): Pedido
     {
         $pedido = new Pedido();
-        $cliente = $this->clienteService->getClienteById($data['idCliente']);
+        $cliente = $this->clienteService->getClienteByIdUsuario($usuario->getId());
         $estado = $this->estadoService->getEstadoById(1);
         $pedido->setCliente($cliente);
         $pedido->setFecha(new DateTime($data['fecha']));
@@ -56,7 +57,6 @@ class PedidoService
             $pedido->addLinea( $this->linPedidoService->createLinPedido($lineaPedido,$pedido));
         }
         $this->entityManager->flush();
-
         $this->entityManager->persist($pedido);
         $this->entityManager->flush();
         return $pedido;

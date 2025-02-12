@@ -4,22 +4,9 @@ namespace App\Dto;
 
 class CrearPedidoDto
 {
-    private $idCliente;
     private $lineasPedidoDto;
     private $fecha;
     private $total;
-
-    public function getIdCliente()
-    {
-        return $this->idCliente;
-    }
-
-
-    public function setIdCliente($idCliente): void
-    {
-        $this->idCliente = $idCliente;
-    }
-
 
     public function getLineasPedidoDto()
     {

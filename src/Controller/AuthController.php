@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\UsuarioService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,6 +14,7 @@ final class AuthController extends AbstractController
 {
     public function __construct(
         private UsuarioService $usuarioService,
+        private Security $security,
     )
     {}
 
@@ -22,6 +24,13 @@ final class AuthController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $this->usuarioService->registrarUsuario($data);
         return new JsonResponse(['message' => 'Usuario registrado con éxito'], 201);
+    }
+
+    #[Route('/logout', name: 'logout', methods: ['POST'])]
+    public function logout(Request $request): JsonResponse
+    {
+        $this->security->logout();
+        return new JsonResponse(null, 204);
     }
 
 }

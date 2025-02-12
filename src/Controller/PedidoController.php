@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Dto\PedidoDto;
 use App\Dto\ProductoDto;
 use App\Entity\Pedido;
+use App\Entity\Usuario;
 use App\Form\PedidoType;
 use App\Repository\PedidoRepository;
 use App\Service\PedidoService;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Client\Curl\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +24,7 @@ final class PedidoController extends AbstractController
 
     public function __construct(
         private PedidoService $pedidoService,
+        private Security $security,
     ){}
 
     #[Route('/all',name: 'get_all_pedidos', methods: ['GET'])]
@@ -34,14 +38,17 @@ final class PedidoController extends AbstractController
     #[Route('/{id}', name: 'get_pedido_por_id', methods: ['GET'])]
     public function getPedidoPorId(Pedido $pedido):JsonResponse
     {
+
         $pedidoDto = PedidoDto::fromPedido($pedido);
         return $this->json($pedidoDto);
     }
     #[Route('/new', name: 'app_pedido_new', methods: ['GET', 'POST'])]
     public function new(Request $request) : JsonResponse
     {
+        /** @var Usuario $usuario */
+        $usuario = $this->security->getUser();
         $requestData = json_decode($request->getContent(), true);
-        $pedido = $this->pedidoService->createPedido($requestData);
+        $pedido = $this->pedidoService->createPedido($requestData,$usuario);
         $pedidoDto = PedidoDto::fromPedido($pedido);
         return $this->json($pedidoDto);
     }

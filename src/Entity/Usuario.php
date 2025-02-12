@@ -24,8 +24,8 @@ class Usuario implements UserInterface,PasswordAuthenticatedUserInterface
     private ?string $password;
 
 
-    #[ORM\Column(type: "integer",name: "rol", enumType: Rol::class, nullable: false)]
-    private ?Rol $rol;
+    #[ORM\Column(length: 200, name: "rol")]
+    private ?String $rol;
 
     #[ORM\Column(type: "boolean", options: ["default" => true],name: "es_activo")]
     private ?bool $esActivo = true;
@@ -70,32 +70,33 @@ class Usuario implements UserInterface,PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    public function getRol(): ?Rol
-    {
-        return $this->rol;
-    }
 
-    public function setRol(Rol $rol): static
-    {
-        $this->rol = $rol;
 
-        return $this;
-    }
-
-    public function getRoles(): array
-    {
-        $roles = [];
-        $roles[] = $this->getRol();
-        return $roles;
-    }
 
     public function eraseCredentials(): void
     {
 
     }
 
+    public function getRol(): ?string
+    {
+        return $this->rol;
+    }
+
+    public function setRol(?string $rol): void
+    {
+        $this->rol = $rol;
+    }
+
     public function getUserIdentifier(): string
     {
         // TODO: Implement getUserIdentifier() method.
+    }
+
+    public function getRoles(): array
+    {
+        $roles = [];
+        $roles[] = $this->getRol();
+        return  $roles;
     }
 }
