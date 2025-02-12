@@ -308,6 +308,9 @@ INSERT INTO INCIENSOSDESEVILLA.LINEAPEDIDO (id_producto, cantidad, precio_unitar
 		
 		SELECT * FROM inciensosdesevilla.pedido p ;
 
+		SELECT * FROM inciensosdesevilla.resenia r;
+		
+
 	
 		SELECT 
 		    p.id AS pedido_id,

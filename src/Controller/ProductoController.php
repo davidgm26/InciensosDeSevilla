@@ -32,10 +32,15 @@ final class ProductoController extends AbstractController
     }
 
 
-    #[Route('/all/activos/categoria/{id}', name:'get_all_productos', methods: ['GET'])]
+    #[Route('/all/activos/categoria/{id}', name:'get_all_productos_activos', methods: ['GET'])]
     public function getAllActivos(Categoria $categoria): JsonResponse
     {
         $lista_productos = $this->productoService->findAllProductosActivosByCategory($categoria);
+
+        foreach ($lista_productos as $producto) {
+            $producto->setValoracion();
+        }
+
         $lista_dtos = array_map(fn($producto)=> ProductoDto::createProductoDto($producto), $lista_productos);
 
         return $this->json($lista_dtos);

@@ -14,6 +14,9 @@ class Resenia
     #[ORM\Column]
     private ?int $id;
 
+    #[ORM\Column]
+    private int $valoracion;
+
     #[ORM\Column(length: 500)]
     private ?string $texto;
 
@@ -25,6 +28,18 @@ class Resenia
     #[ORM\ManyToOne(targetEntity: Producto::class, inversedBy: 'resenias')]
     #[ORM\JoinColumn(nullable: false, name: "id_producto")]
     private ?Producto $producto = null;
+
+
+
+    public function getValoracion(): int
+    {
+        return $this->valoracion;
+    }
+
+    public function setValoracion(int $valoracion): void
+    {
+        $this->valoracion = $valoracion;
+    }
 
     public function getId(): ?int
     {
