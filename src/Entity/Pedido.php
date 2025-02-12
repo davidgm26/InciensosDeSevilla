@@ -23,11 +23,11 @@ class Pedido
     private ?float $total;
 
     #[ORM\ManyToOne(targetEntity: Cliente::class, inversedBy: "pedidos")]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "id_cliente",referencedColumnName: "id" ,nullable: false)]
     private ?Cliente $cliente;
 
     #[ORM\ManyToOne(targetEntity: Estado::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "estado",referencedColumnName: "id",nullable: false)]
     private ?Estado $estado;
 
     #[ORM\OneToMany(mappedBy: "pedido", targetEntity: LineaPedido::class, cascade: ["persist", "remove"])]

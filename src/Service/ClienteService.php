@@ -47,4 +47,14 @@ class ClienteService
 
         return $cliente;
     }
+
+    public function getClienteById(int $id):Cliente
+    {
+        return $this->clienteRepository->find($id);
+    }
+
+    public function getClienteByIdUsuario(int $id):Cliente
+    {
+        return $this->clienteRepository->findByIdUsuario($id);
+    }
 }

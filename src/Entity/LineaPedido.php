@@ -17,18 +17,18 @@ class LineaPedido
     #[ORM\Column]
     private ?int $cantidad;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
-    private ?string $precio = null;
+    #[ORM\Column(name: "precio_unitario",type: 'decimal', precision: 10, scale: 2)]
+    private ?string $precioUnitario = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[ORM\Column(name: "precio_linea", type: 'decimal', precision: 10, scale: 2)]
     private ?float $precioLinea = null;
 
     #[ORM\ManyToOne(targetEntity: Producto::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name:"id_producto",referencedColumnName: "id",nullable: false)]
     private ?Producto $producto;
 
     #[ORM\ManyToOne(targetEntity: Pedido::class, inversedBy: "lineas")]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name:"id_pedido",referencedColumnName: "id",nullable: false)]
     private ?Pedido $pedido;
 
     public function getId(): ?int

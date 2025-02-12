@@ -16,6 +16,17 @@ class ClienteRepository extends ServiceEntityRepository
         parent::__construct($registry, Cliente::class);
     }
 
+
+    public function findByIdUsuario(int $id)
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.usuario = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
     //    /**
     //     * @return Cliente[] Returns an array of Cliente objects
     //     */
