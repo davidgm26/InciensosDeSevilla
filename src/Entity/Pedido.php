@@ -33,9 +33,22 @@ class Pedido
     #[ORM\OneToMany(mappedBy: "pedido", targetEntity: LineaPedido::class, cascade: ["persist", "remove"])]
     private Collection $lineas;
 
+    #[ORM\Column(name: "direccion_entrega", type: "string", nullable: false)]
+    private ?String $direccionEntrega;
+
     public function __construct()
     {
         $this->lineas = new ArrayCollection();
+    }
+
+    public function getDireccionEntrega(): ?string
+    {
+        return $this->direccionEntrega;
+    }
+
+    public function setDireccionEntrega(?string $direccionEntrega): void
+    {
+        $this->direccionEntrega = $direccionEntrega;
     }
 
     public function getId(): ?int
