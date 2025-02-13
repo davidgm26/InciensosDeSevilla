@@ -6,6 +6,7 @@ use App\Dto\ReseniaDto;
 use App\Entity\Categoria;
 use App\Entity\Producto;
 use App\Entity\Resenia;
+use App\Entity\Usuario;
 use App\Repository\ProductoRepository;
 use App\Service\ClienteService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -106,8 +107,23 @@ class ProductoService
         $dto->setCliente($nombre);
         $dto->setTexto($resenia->getTexto());
         $dto->setValoracion($resenia->getValoracion());
+        $dto->setFecha($resenia->getFecha());
 
         return $dto;
+    }
+
+    public function crearResenia(array $request, Producto $producto, Usuario $usuario): Resenia
+    {
+        $resenia = new Resenia();
+        $cliente = $this->clienteService->getClienteByIdUsuario($usuario->getId());
+        $resenia->setCliente($cliente);
+        $resenia->setProducto($producto);
+        $resenia->setTexto($request['texto']);
+        $resenia->setValoracion($request['valoracion']);
+        $this->entityManager->persist($resenia);
+        $this->entityManager->flush();
+        return $resenia;
+
     }
 
 

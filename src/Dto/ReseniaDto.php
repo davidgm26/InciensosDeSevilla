@@ -4,11 +4,20 @@ namespace App\Dto;
 
 class ReseniaDto
 {
-    private $cliente;
+    private $cliente = null;
     private $texto;
     private $valoracion;
-    //private $fecha;
+    private $fecha;
 
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha($fecha): void
+    {
+        $this->fecha = $fecha;
+    }
 
     public function getCliente()
     {

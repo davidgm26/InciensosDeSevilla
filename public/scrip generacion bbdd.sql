@@ -24,7 +24,8 @@
 	id_cliente INT NOT NULL,
 	texto  VARCHAR(500) NOT NULL,
 	id_producto INT NOT NULL,
-	valoracion NUMERIC(10,2) DEFAULT 0
+	valoracion NUMERIC(10,2) DEFAULT 0,
+	fecha DATE NOT NULL
 	);
 	
 	
@@ -67,7 +68,7 @@
 	username VARCHAR(150) NOT NULL,
 	password VARCHAR(500) NOT NULL,
 	es_activo BOOLEAN DEFAULT TRUE,
-	rol SMALLINT NOT NULL
+	rol VARCHAR(200) NOT NULL
 	);
 	
 	--CREACION DE CLAVES EXTERNAS
@@ -259,14 +260,14 @@
 
 	
 		INSERT INTO INCIENSOSDESEVILLA.RESENIA (id_cliente, texto, id_producto,valoracion) VALUES
-	(1, 'Un incienso de gran calidad, con un aroma que dura bastante tiempo. Totalmente recomendado.', 101,5),
-	(2, 'El olor es muy agradable y recuerda a la Semana Santa. Sin duda, volveré a comprarlo.', 102,2),
-	(1, 'Este incienso tiene una fragancia intensa pero no invasiva. Ideal para momentos de meditación.', 103,3),
-	(2, 'Me encantó su aroma, pero la duración podría ser un poco mayor. Aun así, muy bueno.', 104,3),
-	(1, 'La mejor elección para los amantes del incienso tradicional. Un producto excelente.', 105,3),
-	(2, 'Huele muy bien, aunque esperaba que fuera un poco más fuerte. Aún así, es una buena compra.', 106,1),
-	(1, 'Un incienso con notas dulces y especiadas que lo hacen único. Volveré a comprarlo.', 107,2),
-	(2, 'Excelente calidad y una fragancia que envuelve todo el ambiente de forma sutil.', 108,1);
+	(1, 'Un incienso de gran calidad, con un aroma que dura bastante tiempo. Totalmente recomendado.', 1,5),
+	(2, 'El olor es muy agradable y recuerda a la Semana Santa. Sin duda, volveré a comprarlo.', 2,2),
+	(1, 'Este incienso es una maravilla.',2,3),
+	(2, 'Me encantó su aroma, pero la duración podría ser un poco mayor. Aun así, muy bueno.',4,3),
+	(1, 'La mejor elección para los amantes del incienso tradicional. Un producto excelente.',5,3),
+	(2, 'Huele muy bien, aunque esperaba que fuera un poco más fuerte. Aún así, es una buena compra.',6,1),
+	(1, 'Un incienso con notas dulces y especiadas que lo hacen único. Volveré a comprarlo.',7,2),
+	(2, 'Excelente calidad y una fragancia que envuelve todo el ambiente de forma sutil.',2,1);
 		
 		
 		-- Insertar pedidos en la tabla PEDIDO

@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Dto\ProductoDto;
+use App\Dto\ReseniaDto;
 use App\Entity\Categoria;
 use App\Entity\Producto;
+use App\Entity\Usuario;
 use App\Repository\ProductoRepository;
 use App\Service\ProductoService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,6 +21,8 @@ final class ProductoController extends AbstractController
 {
     public function __construct(
         private ProductoService $productoService,
+        private Security $security,
+
     )
     {
     }
@@ -112,6 +117,15 @@ final class ProductoController extends AbstractController
     public function obtenerResenias(Producto $producto): JsonResponse
     {
         return $this->json($this->productoService->obtenerResenias($producto));
+    }
+
+    #[Route('/resenia/new/{id}', name: 'crear_resenia', methods: ['POST'])]
+    public function crearResenia(Request $reseniaDto, Producto $producto): JsonResponse
+    {
+        /** @var Usuario $usuario */
+        $usuario = $this->security->getUser();
+        $request = json_decode($reseniaDto->getContent(), true);
+        return $this->json($this->productoService->crearReseniaDto($this->productoService->crearResenia($request, $producto, $usuario)));
     }
 
 

@@ -24,12 +24,23 @@ class Resenia
     #[ORM\JoinColumn(nullable: false, name: "id_cliente")]
     private ?Cliente $cliente;
 
-
     #[ORM\ManyToOne(targetEntity: Producto::class, inversedBy: 'resenias')]
     #[ORM\JoinColumn(nullable: false, name: "id_producto")]
     private ?Producto $producto = null;
 
+    #[ORM\Column(type: 'date')]
+    private ?\DateTime $fecha;
 
+    public function getFecha(): ?\DateTime
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha(?\DateTime $fecha): void
+    {
+        $this->fecha = $fecha ?? new \DateTime();
+
+    }
 
     public function getValoracion(): int
     {
