@@ -32,8 +32,7 @@ class Producto
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $valoracion = null;
+    private ?int $valoracion = 0;
 
     #[ORM\ManyToOne(targetEntity: Categoria::class, inversedBy: "productos")]
     #[ORM\JoinColumn(nullable: false, name: "id_categoria")]
@@ -138,9 +137,24 @@ class Producto
         return $this->valoracion;
     }
 
-    public function setValoracion(?int $valoracion): static
+    #[ORM\PostLoad]
+    public function setValoracion(): static
     {
-        $this->valoracion = $valoracion;
+        $total = 0;
+        $cantidadResenias = 0;
+
+        foreach ($this->getResenias() as $resenia) {
+            if (is_int($resenia->getValoracion())) {
+                $total += $resenia->getValoracion();
+                $cantidadResenias++;
+            }
+        }
+
+        if ($cantidadResenias > 0) {
+            $this->valoracion = (int)($total / $cantidadResenias);
+        } else {
+            $this->valoracion = 0;
+        }
 
         return $this;
     }

@@ -22,8 +22,9 @@ class ProductoDto
 
     private $activo;
 
-    public static function createProductoDto(Producto $producto) : ProductoDto{
+    private $valoracion;
 
+    public static function createProductoDto(Producto $producto) : ProductoDto{
         $dto = new self();
         $dto->id = $producto->getId();
         $dto->precio = $producto->getPrecio();
@@ -33,7 +34,20 @@ class ProductoDto
         $dto->categoria = $producto->getCategoria()->getNombre();
         $dto->imagen= $producto->getUrlFoto();
         $dto->activo= $producto->getActivo();
+        $dto->valoracion =$producto->getValoracion();
         return $dto;
+    }
+
+
+    public function getValoracion()
+    {
+        return $this->valoracion;
+    }
+
+
+    public function setValoracion($valoracion): void
+    {
+        $this->valoracion = $valoracion;
     }
 
     public function getPrecio(): ?float
