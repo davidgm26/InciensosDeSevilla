@@ -114,12 +114,19 @@ class ProductoService
 
     public function crearResenia(array $request, Producto $producto, Usuario $usuario): Resenia
     {
+        $reseniasProducto = $producto->getResenias();
+        foreach ($reseniasProducto as $reseniaProducto) {
+            if($reseniaProducto->getCliente()->getUsuario()->getId() == $usuario->getId()){
+                throw new \Exception("El usuario " . $usuario->getUsername() . " ya ha dejado una reseña para este producto");            }
+        }
+
         $resenia = new Resenia();
         $cliente = $this->clienteService->getClienteByIdUsuario($usuario->getId());
         $resenia->setCliente($cliente);
         $resenia->setProducto($producto);
         $resenia->setTexto($request['texto']);
         $resenia->setValoracion($request['valoracion']);
+        $resenia->setFecha(new \DateTime());
         $this->entityManager->persist($resenia);
         $this->entityManager->flush();
         return $resenia;
