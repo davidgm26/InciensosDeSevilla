@@ -48,6 +48,7 @@ CREATE TABLE INCIENSOSDESEVILLA.PEDIDO(
                                           fecha DATE NOT NULL,
                                           total  DECIMAL(10, 2) NOT NULL,
                                           id_cliente INT NOT NULL,
+                                          direccion_entrega VARCHAR(300),
                                           estado INT NOT NULL
 );
 
@@ -271,14 +272,14 @@ INSERT INTO INCIENSOSDESEVILLA.RESENIA (id_cliente, texto, id_producto,valoracio
 
 
 -- Insertar pedidos en la tabla PEDIDO
-INSERT INTO INCIENSOSDESEVILLA.PEDIDO (fecha, total, id_cliente, estado) VALUES
-                                                                             ('2025-02-07', 110.70, 1, 1),
-                                                                             ('2025-02-07', 175.45, 2, 2),
-                                                                             ('2025-02-07', 210.85, 3, 3),
-                                                                             ('2025-02-07', 98.20, 4, 1),
-                                                                             ('2025-02-07', 260.55, 5, 2);
+INSERT INTO INCIENSOSDESEVILLA.PEDIDO (fecha, total, id_cliente, estado,direccion_entrega) VALUES
+                                                                                               ('2025-02-07', 110.70, 1, 1,'Calle Martinez Montañez , 89'),
+                                                                                               ('2025-02-07', 175.45, 2, 2, 'Calle Juan De Mesa, 25'),
+                                                                                               ('2025-02-07', 210.85, 3, 3, 'Calle Luisa Roldán, 63 '),
+                                                                                               ('2025-02-07', 98.20, 4, 1, 'Calle Enrique Orce Mármol , 18 , 3ºB'),
+                                                                                               ('2025-02-07', 260.55, 5, 2,'Calle Bienvenido Puelles, 9');
 
--- Insertar líneas de pedido en la tabla LINEAPEDIDO
+-- Insertar líneas de pedido en la tabla LINEAPEDIDO;
 INSERT INTO INCIENSOSDESEVILLA.LINEAPEDIDO (id_producto, cantidad, precio_unitario, precio_linea, id_pedido) VALUES
 -- Pedido 1
 (5, 2, 22.90, 45.80, 1),
