@@ -44,7 +44,7 @@ class Pedido
     public function getDireccionEntrega(): ?string
     {
         return $this->direccionEntrega;
-    }
+    }           
 
     public function setDireccionEntrega(?string $direccionEntrega): void
     {
