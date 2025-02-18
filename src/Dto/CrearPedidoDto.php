@@ -7,6 +7,7 @@ class CrearPedidoDto
     private $lineasPedidoDto;
     private $fecha;
     private $total;
+    private $direccionDeEntrega;
 
     public function getLineasPedidoDto()
     {
@@ -40,6 +41,14 @@ class CrearPedidoDto
     public function setTotal($total): void
     {
         $this->total = $total;
+    }
+
+    public function getDireccionDeEntrega(): string{
+        return $this->direccionDeEntrega;
+    }
+
+    public function setDireccionDeEntrega(string $direccionDeEntrega): void{
+        $this->direccionDeEntrega = $direccionDeEntrega;
     }
 
 

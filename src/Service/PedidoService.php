@@ -47,6 +47,7 @@ class PedidoService
         $pedido->setFecha(new DateTime($data['fecha']));
         $pedido->setTotal($data['total']);
         $pedido->setEstado($estado[0]);
+        $pedido->setDireccionEntrega($data['direccionDeEntrega']);
         $this->entityManager->persist($pedido);
         foreach ($data['lineasPedidosDto'] as $line) {
             $lineaPedido = new CrearLineaPedidoDto();
