@@ -113,12 +113,12 @@ INSERT INTO inciensosdesevilla.categoria (nombre) VALUES ('FOTOGRAFIA');
 
 -- INSERT INTO USUARIO
 
-INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('admin','admin',TRUE,1);
-INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('antonio','1234',TRUE,2);
-INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('martin','1234',TRUE,2);
-INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('miguel','1234',TRUE,2);
-INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('Sara','1234',TRUE,2);
-INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('Elena','1234',TRUE,2);
+INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('admin','admin',TRUE,'ROLE_ADMIN');
+INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('antonio','1234',TRUE,'ROLE_CLIENTE');
+INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('martin','1234',TRUE,'ROLE_CLIENTE');
+INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('miguel','1234',TRUE,'ROLE_CLIENTE');
+INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('Sara','1234',TRUE,'ROLE_CLIENTE');
+INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('Elena','1234',TRUE,'ROLE_CLIENTE');
 
 
 
@@ -329,8 +329,7 @@ FROM INCIENSOSDESEVILLA.PEDIDO p
          JOIN INCIENSOSDESEVILLA.CLIENTE c ON p.id_cliente = c.id
          JOIN INCIENSOSDESEVILLA.LINEAPEDIDO lp ON p.id = lp.id_pedido
          JOIN INCIENSOSDESEVILLA.PRODUCTO pr ON lp.id_producto = pr.id
-WHERE p.id = 12
-ORDER BY p.id, lp.id;
+ORDER BY p.fecha DESC;
 
 	    
 	
