@@ -8,6 +8,7 @@ use App\Entity\Categoria;
 use App\Entity\Producto;
 use App\Entity\Usuario;
 use App\Repository\ProductoRepository;
+use App\Service\MailService;
 use App\Service\ProductoService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,7 @@ final class ProductoController extends AbstractController
     public function __construct(
         private ProductoService $productoService,
         private Security $security,
-
+        private MailService $mailService,
     )
     {
     }
@@ -45,8 +46,8 @@ final class ProductoController extends AbstractController
         foreach ($lista_productos as $producto) {
             $producto->setValoracion();
         }
-
         $lista_dtos = array_map(fn($producto) => ProductoDto::createProductoDto($producto), $lista_productos);
+        $this->mailService->sendMail("davidgama260402@gmail.com","Bienvenido", "Hola Guapo" );
 
         return $this->json($lista_dtos);
     }
