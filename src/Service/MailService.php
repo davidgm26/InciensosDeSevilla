@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use phpDocumentor\Reflection\Types\Context;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
@@ -12,13 +14,17 @@ class MailService
         private MailerInterface $mailer,
     ){}
 
-    public function sendMail(string $email, string $subject, string $message):void
+    public function sendMail(string $email,string $username):void
     {
-        $emailN = (new Email())
+        $emailN = (new TemplatedEmail())
             ->from("designswiki@gmail.com")
             ->to($email)
-            ->subject($subject)
-            ->text($message);
+            ->subject('🎉 ¡Bienvenido a Inciensos de Sevilla!')
+            ->htmlTemplate('propias/email/bienvenida.html.twig')
+            ->context([
+                'nombre' => $username,
+                'hoy'=> new \DateTime(),
+            ]);
 
         $this->mailer->send($emailN);
 

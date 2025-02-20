@@ -47,8 +47,6 @@ final class ProductoController extends AbstractController
             $producto->setValoracion();
         }
         $lista_dtos = array_map(fn($producto) => ProductoDto::createProductoDto($producto), $lista_productos);
-        $this->mailService->sendMail("davidgama260402@gmail.com","Bienvenido", "Hola Guapo" );
-
         return $this->json($lista_dtos);
     }
 
