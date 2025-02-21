@@ -47,4 +47,10 @@ class UsuarioService
         $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
         return $user;
     }
+
+    public function crearNumeroDeVerificacion():int
+    {
+        $num = 4;
+        return rand(pow(10, $num-1), pow(10, $num) - 1);
+    }
 }

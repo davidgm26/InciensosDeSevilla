@@ -14,15 +14,15 @@ class MailService
         private MailerInterface $mailer,
     ){}
 
-    public function sendMail(string $email,string $username):void
+    public function sendMail(string $email,string $number):void
     {
         $emailN = (new TemplatedEmail())
             ->from("designswiki@gmail.com")
             ->to($email)
             ->subject('🎉 ¡Bienvenido a Inciensos de Sevilla!')
-            ->htmlTemplate('propias/email/bienvenida.html.twig')
+            ->htmlTemplate('propias/email/verificacion.html.twig')
             ->context([
-                'nombre' => $username,
+                'number' => "$number",
                 'hoy'=> new \DateTime(),
             ]);
 
