@@ -27,6 +27,7 @@ final class MailController extends AbstractController
     public function sendMail():JsonResponse
     {
         $number =  $this->usuarioService->crearNumeroDeVerificacion();
+        $usuario =
         $this->mailService->sendMail("davidgama260402@gmail.com",$number);
         return $this->json("Mensaje enviado ". $number);
     }

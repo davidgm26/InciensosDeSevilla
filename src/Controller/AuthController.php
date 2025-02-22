@@ -14,9 +14,10 @@ final class AuthController extends AbstractController
 {
     public function __construct(
         private UsuarioService $usuarioService,
-        private Security $security,
+        private Security       $security,
     )
-    {}
+    {
+    }
 
     #[Route('/registro', name: 'registrar_usuario_cliente', methods: ['POST'])]
     public function register(Request $request): JsonResponse
@@ -33,4 +34,12 @@ final class AuthController extends AbstractController
         return new JsonResponse(null, 204);
     }
 
+    #[Route('/validar', name: 'validar_usuario', methods: ['POST'])]
+    public function validarUsuario(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        return $this->usuarioService->buscarUsuarioPorToken($data['token']);
+
+
+    }
 }
