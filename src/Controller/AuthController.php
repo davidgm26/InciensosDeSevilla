@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\UsuarioService;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,6 +26,13 @@ final class AuthController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $this->usuarioService->registrarUsuario($data);
         return new JsonResponse(['message' => 'Usuario registrado con éxito'], 201);
+    }
+
+    #[Route('/renovar_token', name: 'renovar_token', methods: ['POST'])]
+    public function renovar_token(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        return $this->usuarioService->reenviarToken($data['correo']);
     }
 
     #[Route('/logout', name: 'logout', methods: ['POST'])]

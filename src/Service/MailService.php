@@ -22,7 +22,7 @@ class MailService
             ->from("designswiki@gmail.com")
             ->to($email)
             ->subject('🎉 ¡Bienvenido a Inciensos de Sevilla!')
-            ->htmlTemplate('propias/email/verificacion.html.twig')
+            ->htmlTemplate('propias/email/bienvenida.html.twig')
             ->context([
                 'number' => "$number",
                 'hoy'=> new \DateTime(),
@@ -42,5 +42,7 @@ class MailService
             ->context([
                 'number' => $codigo,
             ]);
+
+        $this->mailer->send($email);
     }
 }

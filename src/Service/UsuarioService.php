@@ -42,7 +42,7 @@ class UsuarioService
         }
     }
 
-    public function ºcrearUsuario(array $data): ?Usuario
+    public function crearUsuario(array $data): ?Usuario
     {
         $usuarioBuscado = $this->usuarioRepository->findByUsername($data['username']);
         if ($usuarioBuscado) {
@@ -64,6 +64,20 @@ class UsuarioService
         return $numGen;
     }
 
+    public function reenviarToken(string $correo)
+    {
+        $usuario = $this->usuarioRepository->findOneBy(['email' => $correo]);
+        if ($usuario == null) {
+            return new JsonResponse("No existe ningun usuario asignado con este correo");
+        }
+        $code = $this->crearNumeroDeVerificacion($usuario);
+        $usuario->setToken($code);
+        $this->entityManager->persist($usuario);
+        $cliente = $this->clienteService->getClienteByIdUsuario($usuario->getId());
+        $this->mailService->sendVerificationCodeEmail($cliente,$code);
+        return new JsonResponse("Token enviado con exito");
+    }
+
     public function buscarUsuarioPorToken($token): JsonResponse
     {
         if($token == null){
@@ -73,9 +87,12 @@ class UsuarioService
         if ($usuario == null) {
             return new JsonResponse("No existe ningún usuario asignado a este token",401);
         }
-        $expiracion = 1;
+        if($usuario->getValidado() == true){
+            return new JsonResponse("El usuario" . $usuario->getUsername() . " ya esta validado",401);
+        }
+        $expiracion = 10;
         $ahora = new \DateTime();
-        $creacion = $usuario->getFechaValidacion();
+        $creacion = $usuario->getFechaCreacion();
         $transcurso = $creacion->diff($ahora);
         $diferenciaEnMinutos = ($transcurso->h * 60) + $transcurso->i;
         if ($diferenciaEnMinutos <= $expiracion) {
@@ -83,7 +100,9 @@ class UsuarioService
             $usuario->setValidado(true);
             $this->entityManager->persist($usuario);
             $this->entityManager->flush();
+            $usuario->setFechaValidacion(new \DateTime());
             return new JsonResponse("Usuario validad con exito", 200);
         }
+        return new JsonResponse("El token ha expirado", 400);
     }
 }
