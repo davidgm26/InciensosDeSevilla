@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Dto\PerfilUsuarioResponse;
 use App\Entity\Usuario;
 use App\Repository\CategoriaRepository;
 use App\Repository\UsuarioRepository;
@@ -46,5 +47,12 @@ class UsuarioService
         $user->setUsername($data['username']);
         $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
         return $user;
+    }
+
+    public function getAllProfileDetails(Usuario $usuario)
+    {
+        $cliente = $this->clienteService->getClienteByIdUsuario($usuario->getId());
+        $resp = PerfilUsuarioResponse::createPerfilDtoResponseFromPerfil($usuario,$cliente);
+        return $resp;
     }
 }
