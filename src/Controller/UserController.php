@@ -14,8 +14,10 @@ use Symfony\Bundle\SecurityBundle\Security;
 final class UserController extends AbstractController
 {
 
+
     public function __construct(
-        private UsuarioService $usuarioService, private readonly Security $security
+        private UsuarioService $usuarioService,
+        private Security $security,
     ){}
 
 
