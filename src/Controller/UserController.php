@@ -14,12 +14,10 @@ use Symfony\Bundle\SecurityBundle\Security;
 final class UserController extends AbstractController
 {
 
-
     public function __construct(
         private UsuarioService $usuarioService,
         private Security $security,
     ){}
-
 
     #[Route('/profile/details', name: 'get_cliente_details', methods: ['GET'])]
     public function getUserDetails()
@@ -27,5 +25,13 @@ final class UserController extends AbstractController
         /** @var Usuario $usuario */
         $usuario = $this->security->getUser();
         return $this->json($this->usuarioService->getAllProfileDetails($usuario),Response::HTTP_OK);
+    }
+
+    #[Route('/validar', name: 'get_cliente', methods: ['GET'])]
+    public function comprobarUsuarioValidado()
+    {
+        /** @var Usuario $usuario */
+        $usuario = $this->security->getUser();
+        return $this->usuarioService->comprobarValidacionDeLaCuenta($usuario);
     }
 }

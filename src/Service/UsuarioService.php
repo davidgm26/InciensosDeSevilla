@@ -8,6 +8,8 @@ use App\Repository\CategoriaRepository;
 use App\Repository\UsuarioRepository;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UsuarioService
@@ -54,5 +56,13 @@ class UsuarioService
         $cliente = $this->clienteService->getClienteByIdUsuario($usuario->getId());
         $resp = PerfilUsuarioResponse::createPerfilDtoResponseFromPerfil($usuario,$cliente);
         return $resp;
+    }
+
+    public function comprobarValidacionDeLaCuenta(Usuario $usuario)
+    {
+        if($usuario->getValidado() == false){
+            return new JsonResponse("El usuario no está validado", Response::HTTP_METHOD_NOT_ALLOWED);
+        }
+        return new JsonResponse("Usuario Validado", Response::HTTP_OK);
     }
 }

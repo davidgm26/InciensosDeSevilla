@@ -30,6 +30,8 @@ class Usuario implements UserInterface,PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "boolean", options: ["default" => true],name: "es_activo")]
     private ?bool $esActivo = true;
 
+
+
     public function getId(): ?int
     {
         return $this->id;
