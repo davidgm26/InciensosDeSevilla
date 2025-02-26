@@ -30,7 +30,72 @@ class Usuario implements UserInterface,PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "boolean", options: ["default" => true],name: "es_activo")]
     private ?bool $esActivo = true;
 
+    #[ORM\Column(type: "boolean", options: ["default" => false],name: "validado")]
+    private ?bool $validado = false;
 
+    #[ORM\Column(length: 500,name: "token")]
+    private ?string $token;
+
+    #[ORM\Column(type: "datetime",name: "fecha_cambio_contrasenia")]
+    private ?\DateTimeInterface $fechaCambioPass;
+
+    #[ORM\Column(type: "datetime",name:"fecha_validacion")]
+    private ?\DateTimeInterface $fechaValidacion;
+
+    #[ORM\Column(type: "datetime", name: "fecha_creacion")]
+    private ?\DateTimeInterface $fechaCreacion;
+
+    public function getValidado(): ?bool
+    {
+        return $this->validado;
+    }
+
+    public function setValidado(?bool $validado): void
+    {
+        $this->validado = $validado;
+    }
+
+
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): void
+    {
+        $this->token = $token;
+    }
+
+    public function getFechaCambioPass(): ?\DateTimeInterface
+    {
+        return $this->fechaCambioPass;
+    }
+
+    public function setFechaCambioPass(?\DateTimeInterface $fechaCambioPass): void
+    {
+        $this->fechaCambioPass = $fechaCambioPass;
+    }
+
+    public function getFechaValidacion(): ?\DateTimeInterface
+    {
+        return $this->fechaValidacion;
+    }
+
+    public function setFechaValidacion(?\DateTimeInterface $fechaValidacion): void
+    {
+        $this->fechaValidacion = $fechaValidacion;
+    }
+
+    public function getFechaCreacion(): ?\DateTimeInterface
+    {
+        return $this->fechaCreacion;
+    }
+
+    public function setFechaCreacion(?\DateTimeInterface $fechaCreacion): void
+    {
+        $this->fechaCreacion = $fechaCreacion;
+    }
 
     public function getId(): ?int
     {

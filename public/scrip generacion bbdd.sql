@@ -69,6 +69,11 @@ CREATE TABLE INCIENSOSDESEVILLA.USUARIO(
                                            username VARCHAR(150) NOT NULL,
                                            password VARCHAR(500) NOT NULL,
                                            es_activo BOOLEAN DEFAULT TRUE,
+                                           TOKEN VARCHAR(500),
+                                           fecha_validacion DATE,
+                                           fecha_creacion TIMESTAMP,
+                                           fecha_cambio_contrasenia DATE,
+                                           validado BOOLEAN DEFAULT FALSE,
                                            rol VARCHAR(200) NOT NULL
 );
 
@@ -113,7 +118,7 @@ INSERT INTO inciensosdesevilla.categoria (nombre) VALUES ('FOTOGRAFIA');
 
 -- INSERT INTO USUARIO
 
-INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('admin','admin',TRUE,'ROLE_ADMIN');
+INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol,validado) VALUES ('admin','admin',TRUE,'ROLE_ADMIN',FALSE);
 INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('antonio','1234',TRUE,'ROLE_CLIENTE');
 INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('martin','1234',TRUE,'ROLE_CLIENTE');
 INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES ('miguel','1234',TRUE,'ROLE_CLIENTE');
@@ -310,7 +315,11 @@ SELECT * FROM inciensosdesevilla.cliente c ;
 
 SELECT * FROM inciensosdesevilla.pedido p ;
 
+SELECT * FROM inciensosdesevilla.LINEAPEDIDO lp ;
+
 SELECT * FROM inciensosdesevilla.resenia r;
+
+SELECT * FROM inciensosdesevilla.usuario u;
 
 
 
