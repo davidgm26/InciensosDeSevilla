@@ -41,10 +41,8 @@ class ClienteService
         $cliente->setDni($request['dni']);
         $cliente->setCorreo($request['correo']);
         $cliente->setUsuario($usuario);
-
         $this->entityManager->persist($cliente);
         $this->entityManager->flush();
-
         return $cliente;
     }
 
@@ -53,8 +51,14 @@ class ClienteService
         return $this->clienteRepository->find($id);
     }
 
+
     public function getClienteByIdUsuario(int $id):Cliente
     {
         return $this->clienteRepository->findByIdUsuario($id);
+    }
+
+    public function findOneByCorreo($correo)
+    {
+        return $this->clienteRepository->findOneBy(['correo' => $correo]);
     }
 }

@@ -21,7 +21,7 @@ class Cliente
     #[ORM\Column(length: 150)]
     private ?string $apellido = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100 )]
     private ?string $correo = null;
 
     #[ORM\Column(length: 50)]

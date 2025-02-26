@@ -6,11 +6,9 @@ use App\Dto\PerfilUsuarioResponse;
 use App\Entity\Usuario;
 use App\Repository\CategoriaRepository;
 use App\Repository\UsuarioRepository;
-use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Validator\Constraints\Json;
 
 class UsuarioService
 {
@@ -67,28 +65,30 @@ class UsuarioService
     public function comprobarValidacionDeLaCuenta(Usuario $usuario)
     {
         if($usuario->getValidado() == false){
-            return new JsonResponse("El usuario no está validado", Response::HTTP_METHOD_NOT_ALLOWED);
+            return new JsonResponse("El usuario no esta validado", 405);
         }
-        return new JsonResponse("Usuario Validado", Response::HTTP_OK);
+        return new JsonResponse("Usuario Validado",200 );
     }
+
     public function crearNumeroDeVerificacion(Usuario $user): int
     {
         $num = 4;
         $numGen = rand(pow(10, $num - 1), pow(10, $num) - 1);
         $user->setToken($numGen);
+        $user->setFechaCreacion(new \DateTime());
         return $numGen;
     }
 
     public function reenviarToken(string $correo)
     {
-        $usuario = $this->usuarioRepository->findOneBy(['email' => $correo]);
+        $cliente = $this->clienteService->findOneByCorreo($correo);
+        $usuario = $this->usuarioRepository->findOneById($cliente->getUsuario()->getId());
         if ($usuario == null) {
             return new JsonResponse("No existe ningun usuario asignado con este correo");
         }
         $code = $this->crearNumeroDeVerificacion($usuario);
-        $usuario->setToken($code);
         $this->entityManager->persist($usuario);
-        $cliente = $this->clienteService->getClienteByIdUsuario($usuario->getId());
+        $this->entityManager->flush();
         $this->mailService->sendVerificationCodeEmail($cliente,$code);
         return new JsonResponse("Token enviado con exito");
     }
