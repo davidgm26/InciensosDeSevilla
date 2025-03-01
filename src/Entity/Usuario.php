@@ -33,7 +33,6 @@ class Usuario implements UserInterface,PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "boolean", options: ["default" => false],name: "validado")]
     private ?bool $validado = false;
 
-
     #[ORM\Column(length: 500,name: "token")]
     private ?string $token;
 
@@ -158,7 +157,7 @@ class Usuario implements UserInterface,PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        // TODO: Implement getUserIdentifier() method.
+        return $this->username;
     }
 
     public function getRoles(): array

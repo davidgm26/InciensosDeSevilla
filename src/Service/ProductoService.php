@@ -21,7 +21,8 @@ class ProductoService
         private ProductoRepository          $productoRepository,
         private UserPasswordHasherInterface $passwordHasher,
         private CategoriaService            $categoriaService,
-        private EntityManagerInterface      $entityManager, private readonly ClienteService $clienteService
+        private EntityManagerInterface      $entityManager,
+        private  ClienteService $clienteService
     )
     {
     }

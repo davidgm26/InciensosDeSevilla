@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Dto\PedidoDto;
+use App\Dto\PedidoUserResponse;
 use App\Dto\ProductoDto;
 use App\Entity\Pedido;
 use App\Entity\Usuario;
@@ -80,6 +81,16 @@ final class PedidoController extends AbstractController
         }
 
         return $this->redirectToRoute('app_pedido_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/usuario/all', name: 'get_all_pedidosUser', methods: ['GET'])]
+    function getAllPedidosUser(): JsonResponse
+    {
+        /** @var Usuario $usuario */
+        $usuario = $this->security->getUser();
+        $pedidos = $this->pedidoService->getPedidosByCliente($usuario->getId());
+        $dtos =  array_map(fn($pedido)=> PedidoUserResponse::createDtoFromPedido($pedido), $pedidos);
+        return $this->json($dtos, Response::HTTP_OK);
     }
 
 }

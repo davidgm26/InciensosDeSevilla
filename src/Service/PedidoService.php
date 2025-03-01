@@ -9,6 +9,7 @@ use App\Entity\Usuario;
 use App\Repository\PedidoRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\This;
 
 class PedidoService
 {
@@ -33,9 +34,21 @@ class PedidoService
         return $this->pedidoRepository->find($id);
     }
 
-    public function getPedidosByCliente(int $idCliente): array
+    public function getPedidosByCliente($idCliente): array
     {
-        return $this->pedidoRepository->findBy(['cliente' => $idCliente]);
+        $cliente = $this->clienteService->getClienteByIdUsuario($idCliente);
+        return $this->pedidoRepository->findBy(['cliente' => $cliente->getId()]);
+    }
+
+    public function generarNombreDelPedido():string
+    {
+        $ultimoID = $this->pedidoRepository->findUltimoPedidoPorId();
+
+        $nuevoNumero = $ultimoID + 1;
+
+        return sprintf("PED-%06d", $nuevoNumero);
+
+
     }
 
     public function createPedido(array $data, Usuario $usuario): Pedido
@@ -48,6 +61,7 @@ class PedidoService
         $pedido->setTotal($data['total']);
         $pedido->setEstado($estado[0]);
         $pedido->setDireccionEntrega($data['direccionDeEntrega']);
+        $pedido->setNombre($this->generarNombreDelPedido());
         $this->entityManager->persist($pedido);
         foreach ($data['lineasPedidosDto'] as $line) {
             $lineaPedido = new CrearLineaPedidoDto();

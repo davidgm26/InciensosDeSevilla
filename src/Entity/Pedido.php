@@ -22,6 +22,9 @@ class Pedido
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private ?float $total;
 
+    #[ORM\Column(type: "string", name: "nombre", length: 200)]
+    private ?string $nombre;
+
     #[ORM\ManyToOne(targetEntity: Cliente::class, inversedBy: "pedidos")]
     #[ORM\JoinColumn(name: "id_cliente",referencedColumnName: "id" ,nullable: false)]
     private ?Cliente $cliente;
@@ -39,6 +42,16 @@ class Pedido
     public function __construct()
     {
         $this->lineas = new ArrayCollection();
+    }
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(?string $nombre): void
+    {
+        $this->nombre = $nombre;
     }
 
     public function getDireccionEntrega(): ?string
