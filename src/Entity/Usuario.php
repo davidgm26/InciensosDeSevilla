@@ -157,7 +157,7 @@ class Usuario implements UserInterface,PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        // TODO: Implement getUserIdentifier() method.
+        return $this->username;
     }
 
     public function getRoles(): array

@@ -26,8 +26,9 @@ security:
   access_control:
     - { path: ^/api/producto/all , roles: PUBLIC_ACCESS }
     - { path: ^/api/pedido/new, roles: ROLE_CLIENTE }
-    - {path: ^/api/producto/resenia/new, roles: ROLE_CLIENTE}
+    - { path: ^/api/producto/resenia/new, roles: ROLE_CLIENTE}
     - { path: ^/api/user/.*, roles: ROLE_CLIENTE }
+    - { path: ^/api/pedido/usuario/all , roles: ROLE_CLIENTE}
 
 
 
