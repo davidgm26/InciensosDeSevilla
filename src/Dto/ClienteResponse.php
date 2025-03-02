@@ -4,46 +4,129 @@ namespace App\Dto;
 
 use App\Entity\Cliente;
 
-class ClienteResponse
+class ClienteResponse extends UserResponse
 {
 
+
+
     private $nombre;
-
-    private $apellido;
-
-    private $dni;
-
+    private $apellidos;
+    private $correo;
     private $telefono;
-
+    private $dni;
     private $direccion;
 
-    public static function createClienteDto(Cliente $cliente) : ClienteResponse{
-
-        $dto = new self();
-        $dto->nombre = $cliente->getNombre();
-        $dto->apellido = $cliente->getApellido();
-        $dto->dni = $cliente->getDni();
-        $dto->telefono = $cliente->getTelefono();
-        $dto->direccion = $cliente->getDireccion();
-        return $dto;
-    }
-
-    public function getNombre() : string
+    /**
+     * @return mixed
+     */
+    public function getNombre()
     {
         return $this->nombre;
     }
 
-    public function getApellido() : string
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre): void
     {
-        return $this->apellido;
+        $this->nombre = $nombre;
     }
-    public function getDni() : string
+
+    /**
+     * @return mixed
+     */
+    public function getApellidos()
+    {
+        return $this->apellidos;
+    }
+
+    /**
+     * @param mixed $apellidos
+     */
+    public function setApellidos($apellidos): void
+    {
+        $this->apellidos = $apellidos;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCorreo()
+    {
+        return $this->correo;
+    }
+
+    /**
+     * @param mixed $correo
+     */
+    public function setCorreo($correo): void
+    {
+        $this->correo = $correo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
+    /**
+     * @param mixed $telefono
+     */
+    public function setTelefono($telefono): void
+    {
+        $this->telefono = $telefono;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDni()
     {
         return $this->dni;
     }
-    public function getTelefono() : string
+
+    /**
+     * @param mixed $dni
+     */
+    public function setDni($dni): void
     {
-        return $this->telefono;
+        $this->dni = $dni;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * @param mixed $direccion
+     */
+    public function setDireccion($direccion): void
+    {
+        $this->direccion = $direccion;
+    }
+
+    public static function createClienteResponse(Cliente $cliente)
+    {
+        $dto= new self();
+        $userResponse = parent::createUserResponse($cliente->getUsuario());
+        $dto->nombre = $cliente->getNombre();
+        $dto->apellidos = $cliente->getApellido();
+        $dto->dni = $cliente->getDni();
+        $dto->telefono = $cliente->getTelefono();
+        $dto->correo = $cliente->getCorreo();
+        $dto->direccion = $cliente->getDireccion();
+        $dto->username = $userResponse->getUsername();
+        $dto->activo = $userResponse->getActivo();
+        $dto->rol = $userResponse->getRol();
+        $dto->id = $userResponse->getId();
+        return $dto;
     }
 
 }
