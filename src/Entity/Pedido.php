@@ -20,22 +20,48 @@ class Pedido
     private ?\DateTimeInterface $fecha;
 
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
-    private ?string $total;
+    private ?float $total;
+
+    #[ORM\Column(type: "string", name: "nombre", length: 200)]
+    private ?string $nombre;
 
     #[ORM\ManyToOne(targetEntity: Cliente::class, inversedBy: "pedidos")]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "id_cliente",referencedColumnName: "id" ,nullable: false)]
     private ?Cliente $cliente;
 
     #[ORM\ManyToOne(targetEntity: Estado::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "estado",referencedColumnName: "id",nullable: false)]
     private ?Estado $estado;
 
     #[ORM\OneToMany(mappedBy: "pedido", targetEntity: LineaPedido::class, cascade: ["persist", "remove"])]
     private Collection $lineas;
 
+    #[ORM\Column(name: "direccion_entrega", type: "string", nullable: false)]
+    private ?String $direccionEntrega;
+
     public function __construct()
     {
         $this->lineas = new ArrayCollection();
+    }
+
+    public function getNombre(): ?string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(?string $nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    public function getDireccionEntrega(): ?string
+    {
+        return $this->direccionEntrega;
+    }           
+
+    public function setDireccionEntrega(?string $direccionEntrega): void
+    {
+        $this->direccionEntrega = $direccionEntrega;
     }
 
     public function getId(): ?int
@@ -55,12 +81,12 @@ class Pedido
         return $this;
     }
 
-    public function getTotal(): ?string
+    public function getTotal(): ?float
     {
         return $this->total;
     }
 
-    public function setTotal(string $total): static
+    public function setTotal(float $total): static
     {
         $this->total = $total;
 

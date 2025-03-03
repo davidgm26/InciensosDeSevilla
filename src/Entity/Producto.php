@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ProductoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Collection;
+use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\Entity(repositoryClass: ProductoRepository::class)]
 #[ORM\Table(name:"producto", schema: "inciensosdesevilla")]
@@ -18,34 +20,45 @@ class Producto
     #[ORM\Column(length: 100)]
     private ?string $nombre = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 500, nullable: true)]
     private ?string $descripcion = null;
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $url_foto = null;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
-    private ?string $precio = null;
+    private ?float $precio = null;
 
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $valoracion = null;
+    private ?int $valoracion = 0;
 
     #[ORM\ManyToOne(targetEntity: Categoria::class, inversedBy: "productos")]
     #[ORM\JoinColumn(nullable: false, name: "id_categoria")]
     private ?Categoria $categoria = null;
 
-    #[ORM\OneToMany(mappedBy: 'producto', targetEntity: Resenia::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: "producto", targetEntity: Resenia::class)]
     private Collection $resenias;
 
+    #[ORM\Column]
+    private ?bool $activo;
 
+    public function __construct()
+    {
+        $this->resenias = new ArrayCollection();  // Inicializamos la colección
+    }
 
     // Getters y setters
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getUrlFoto(): ?string
@@ -63,6 +76,16 @@ class Producto
         $this->url_foto = $url;
 
         return $this;
+    }
+
+    public function getActivo(): ?bool
+    {
+        return $this->activo;
+    }
+
+    public function setActivo(?bool $activo): void
+    {
+        $this->activo = $activo;
     }
 
 
@@ -85,12 +108,12 @@ class Producto
         return $this;
     }
 
-    public function getPrecio(): ?string
+    public function getPrecio(): ?float
     {
         return $this->precio;
     }
 
-    public function setPrecio(string $precio): static
+    public function setPrecio(float $precio): static
     {
         $this->precio = $precio;
 
@@ -114,9 +137,24 @@ class Producto
         return $this->valoracion;
     }
 
-    public function setValoracion(?int $valoracion): static
+    #[ORM\PostLoad]
+    public function setValoracion(): static
     {
-        $this->valoracion = $valoracion;
+        $total = 0;
+        $cantidadResenias = 0;
+
+        foreach ($this->getResenias() as $resenia) {
+            if (is_int($resenia->getValoracion())) {
+                $total += $resenia->getValoracion();
+                $cantidadResenias++;
+            }
+        }
+
+        if ($cantidadResenias > 0) {
+            $this->valoracion = (int)($total / $cantidadResenias);
+        } else {
+            $this->valoracion = 0;
+        }
 
         return $this;
     }

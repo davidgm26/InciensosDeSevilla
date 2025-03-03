@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ClienteRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClienteRepository::class)]
@@ -20,7 +21,7 @@ class Cliente
     #[ORM\Column(length: 150)]
     private ?string $apellido = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100 )]
     private ?string $correo = null;
 
     #[ORM\Column(length: 50)]
@@ -38,6 +39,9 @@ class Cliente
 
     #[ORM\OneToMany(targetEntity: Pedido::class, mappedBy: 'cliente', cascade: ['persist', 'remove'])]
     private Collection $pedidos;
+
+    #[ORM\OneToMany(mappedBy: 'cliente', targetEntity: Resenia::class, cascade: ['persist', 'remove'])]
+    private Collection $resenias;
 
     public function getPedidos(): Collection
     {
@@ -105,6 +109,11 @@ class Cliente
         $this->telefono = $telefono;
 
         return $this;
+    }
+
+    public function getResenias(): Collection
+    {
+        return $this->resenias;
     }
 
     public function getDni(): ?string

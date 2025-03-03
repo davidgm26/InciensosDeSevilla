@@ -14,17 +14,43 @@ class Resenia
     #[ORM\Column]
     private ?int $id;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column]
+    private int $valoracion;
+
+    #[ORM\Column(length: 500)]
     private ?string $texto;
 
-    #[ORM\ManyToOne(targetEntity: Cliente::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Cliente::class, inversedBy: 'resenias')]
+    #[ORM\JoinColumn(nullable: false, name: "id_cliente")]
     private ?Cliente $cliente;
 
-
     #[ORM\ManyToOne(targetEntity: Producto::class, inversedBy: 'resenias')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, name: "id_producto")]
     private ?Producto $producto = null;
+
+    #[ORM\Column(type: 'date')]
+    private ?\DateTime $fecha;
+
+    public function getFecha(): ?\DateTime
+    {
+        return $this->fecha;
+    }
+
+    public function setFecha(?\DateTime $fecha): void
+    {
+        $this->fecha = $fecha ?? new \DateTime();
+
+    }
+
+    public function getValoracion(): int
+    {
+        return $this->valoracion;
+    }
+
+    public function setValoracion(int $valoracion): void
+    {
+        $this->valoracion = $valoracion;
+    }
 
     public function getId(): ?int
     {

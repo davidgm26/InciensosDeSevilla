@@ -30,6 +30,51 @@ class ProductoRepository extends ServiceEntityRepository
     {
         return parent::findAll();
     }
+
+    public function findProductosLimitados(): array
+    {
+        $productos = $this->createQueryBuilder('p')
+            ->setMaxResults(50)
+            ->getQuery()
+            ->getResult();
+
+        shuffle($productos);
+
+        return array_slice($productos, 0, 9);
+    }
+
+    public function findAllActivosByCategory($categoria): array
+    {
+        $productos = $this->createQueryBuilder('p')
+            ->where('p.activo = true')
+            ->andWhere('p.categoria = :categoria')
+            ->setParameter('categoria', $categoria)
+            ->getQuery()
+            ->getResult();
+
+        return $productos;
+    }
+
+
+
+//    public function getProductosLimitados()
+//    {
+//        $conn = $this->getEntityManager()->getConnection();
+//
+//        $query =
+//            'SELECT p
+//        FROM Producto p
+//        WHERE p.categoria.id= 1
+//        ORDER BY p.precio';
+//        $result = $conn->executeQuery($query);
+//
+//        return $result->fetchAllAssociative();
+
+//        $query->setFirstResult($offset);
+//        $query->setMaxResults($limit);
+
+  //  }
+
     //    /**
     //     * @return Producto[] Returns an array of Producto objects
     //     */

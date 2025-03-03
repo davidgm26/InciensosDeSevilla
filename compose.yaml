@@ -1,4 +1,4 @@
-
+º
 services:
 ###> doctrine/doctrine-bundle ###
   database:

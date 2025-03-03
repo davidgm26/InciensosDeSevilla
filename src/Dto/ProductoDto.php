@@ -6,28 +6,48 @@ use App\Entity\Producto;
 
 class ProductoDto
 {
+    private $id;
+
     private $precio;
 
     private $nombre;
 
     private $descripcion;
 
+    private $categoria;
+
     private $imagen;
 
     private $totalResenias;
 
+    private $activo;
 
-
-
+    private $valoracion;
 
     public static function createProductoDto(Producto $producto) : ProductoDto{
-
         $dto = new self();
+        $dto->id = $producto->getId();
         $dto->precio = $producto->getPrecio();
         $dto->nombre = $producto->getNombre();
         $dto->descripcion = $producto->getDescripcion();
         $dto ->totalResenias = sizeof($producto->getResenias());
+        $dto->categoria = $producto->getCategoria()->getNombre();
+        $dto->imagen= $producto->getUrlFoto();
+        $dto->activo= $producto->getActivo();
+        $dto->valoracion =$producto->getValoracion();
         return $dto;
+    }
+
+
+    public function getValoracion()
+    {
+        return $this->valoracion;
+    }
+
+
+    public function setValoracion($valoracion): void
+    {
+        $this->valoracion = $valoracion;
     }
 
     public function getPrecio(): ?float
@@ -54,5 +74,23 @@ class ProductoDto
     {
         return $this->totalResenias;
     }
+
+    public function getCategoria(): ?string
+    {
+        return $this->categoria;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getActivo()
+    {
+        return $this->activo;
+    }
+
+
+
 
 }
