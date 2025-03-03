@@ -52,9 +52,14 @@ class ClienteService
     }
 
 
-    public function getClienteByIdUsuario(int $id):Cliente
+    public function getClienteByIdUsuario(int $id): ?Cliente
     {
-        return $this->clienteRepository->findByIdUsuario($id);
+        $cliente =  $this->clienteRepository->findOneBy(['usuario' => $id]);
+        if($cliente == null){
+            return null;
+        }
+        return $cliente;
+
     }
 
     public function findOneByCorreo($correo)

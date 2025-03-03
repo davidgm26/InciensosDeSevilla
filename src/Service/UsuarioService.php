@@ -2,13 +2,16 @@
 
 namespace App\Service;
 
+use App\Dto\ClienteResponse;
 use App\Dto\PerfilUsuarioResponse;
 use App\Dto\ReseniaResponseDto;
+use App\Dto\UserResponse;
 use App\Entity\Usuario;
 use App\Repository\UsuarioRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use http\Env\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -127,12 +130,12 @@ class UsuarioService
     public function getAllReseniasUsuario(Usuario $usuario)
     {
         $cliente = $this->clienteService->getClienteByIdUsuario($usuario->getId());
-        $lista =  $this->reseniaService->getAllReseniasByCliente($cliente);
+        $lista = $this->reseniaService->getAllReseniasByCliente($cliente);
 
-        return array_map(fn($resenia)=>ReseniaResponseDto::createDtoFromResenia($resenia),$lista);
+        return array_map(fn($resenia) => ReseniaResponseDto::createDtoFromResenia($resenia), $lista);
     }
 
-    public function editarPerfil(Usuario $usuario,array $request)
+    public function editarPerfil(Usuario $usuario, array $request)
     {
         $cliente = $this->clienteService->getClienteByIdUsuario($usuario->getId());
         $cliente->setNombre($request['nombre']);
@@ -143,7 +146,63 @@ class UsuarioService
         $this->entityManager->persist($usuario);
         $this->entityManager->flush();
         return new JsonResponse("Usuario actualizado con exito");
+    }
 
+    public function findAllPerfiles()
+    {
+        $lista = $this->usuarioRepository->findAll();
+        $perfiles = [];
+        foreach ($lista as $perfil) {
+            if ($perfil->getRol() == 'ROLE_ADMIN') {
+                $perfiles[] = UserResponse::createUserResponse($perfil);
+            } else if ($perfil->getRol() == 'ROLE_CLIENTE') {
+                $cliente = $this->clienteService->getClienteByIdUsuario($perfil->getId());
+                if ($cliente != null){
+                $perfiles[] = ClienteResponse::createClienteResponse($cliente);
+                }
+            }else {
+                throw new Exception("El rol no está autorizado");
+            }
+        }
+        return $perfiles;
+    }
+
+    public function changeUserStatus(int $id)
+    {
+        $usuario = $this->usuarioRepository->findOneBy(['id' => $id]);
+        $usuario->setEsActivo(!$usuario->getEsActivo());
+        $this->entityManager->persist($usuario);
+        $this->entityManager->flush();
+        return new JsonResponse("Usuario actualizado con exito");
+    }
+
+    public function editarUsuario(int $id, array $request)
+    {
+            $usuario = $this->usuarioRepository->findOneBy(['id' => $id]);
+        if($usuario->getRol() == 'ROLE_ADMIN'){
+            $usuario->setUsername($request['username']);
+            $this->entityManager->persist($usuario);
+            $this->entityManager->flush();
+            return new JsonResponse("Usuario actualizado con exito");
+        }elseif ($usuario->getRol() == 'ROLE_CLIENTE'){
+            $cliente = $this->clienteService->getClienteByIdUsuario($usuario->getId());
+            if ($cliente != null){
+                $usuario->setUsername($request['nombreDeUsuario']);
+                $cliente->setDni($request['dni']);
+                $cliente->setNombre($request['nombre']);
+                $cliente->setApellido($request['apellido']);
+                $cliente->setDireccion($request['direccion']);
+                $cliente->setTelefono($request['telefono']);
+                $this->entityManager->persist($usuario);
+                $this->entityManager->persist($cliente);
+                $this->entityManager->flush();
+                return new JsonResponse("Cliente actualizado con exito");
+            }
+        }else {
+            return new JsonResponse("Error al actualizar el usuario", 400);
+        }
 
     }
+
+
 }

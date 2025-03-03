@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\UserResponse;
 use App\Entity\Resenia;
 use App\Entity\Usuario;
 use App\Service\ReseniaService;
@@ -64,4 +65,32 @@ final class UserController extends AbstractController
         $this->usuarioService->editarPerfil($usuario, $data);
         return $this->json("Perfil actualizado con exito", Response::HTTP_OK);
     }
+
+    #[Route('/admin/userlist', name: 'get_all_usuarios', methods: ['GET'])]
+    public function getAllUserList()
+    {
+        return $this->json($this->usuarioService->findAllPerfiles(),Response::HTTP_OK);
+    }
+
+    #[Route('/admin/status/{id}', name: 'change_user_status', methods: ['PUT'])]
+    public function changeUserStatus(string $id)
+    {
+        return $this->usuarioService->changeUserStatus((int) $id);
+    }
+    #[Route('/admin/editar/{id}', name: 'change_user_status', methods: ['PUT'])]
+    public function editarUsuario(Request $request,string $id)
+    {
+        $data = json_decode($request->getContent(),true);
+        return $this->usuarioService->editarUsuario($id, $data);
+    }
+
+    #[Route('/me', name: 'get_loged_user', methods: ['GET'])]
+    public function obtenerUsuarioSesion()
+    {
+        /** @var Usuario $usuario */
+        $usuario = $this->security->getUser();
+        $dto = UserResponse::createUserResponse($usuario);
+        return $this->json($dto, Response::HTTP_OK);
+    }
+
 }

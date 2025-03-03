@@ -47,6 +47,7 @@ CREATE TABLE INCIENSOSDESEVILLA.PEDIDO(
                                           id SERIAL NOT NULL PRIMARY KEY,
                                           fecha DATE NOT NULL,
                                           total  DECIMAL(10, 2) NOT NULL,
+                                          nombre VARCHAR(200) NOT NULL,
                                           id_cliente INT NOT NULL,
                                           direccion_entrega VARCHAR(300),
                                           estado INT NOT NULL
@@ -131,10 +132,10 @@ INSERT INTO inciensosdesevilla.usuario (username,password,es_activo,rol) VALUES 
 -- INSERT INTO CLIENTE
 
 INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('antoniomastin@gmail.com','Calle Condes de Bustillo , 41','26214215L',2,'Antonio','Martin Gonzalez','696325014');
-INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('migueldom@gmail.com','Calle Condes de Barcelona, 41','54286301L',2,'Miguel','Dominguez Marin','696325016');
-INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('martin@gmail.com','Calle Sevilla, 1','54286391L',2,'Martin','Matos Marin','696325066');
-INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('sara@gmail.com','Calle Barcelona, 4','54286371L',2,'Sara','Romero Ortiz','696325036');
-INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('elena@gmail.com','Calle Segovia, 6','54286303L',2,'Elena','Montes Marin','696325056');
+INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('migueldom@gmail.com','Calle Condes de Barcelona, 41','54286301L',3,'Miguel','Dominguez Marin','696325016');
+INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('martin@gmail.com','Calle Sevilla, 1','54286391L',4,'Martin','Matos Marin','696325066');
+INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('sara@gmail.com','Calle Barcelona, 4','54286371L',5,'Sara','Romero Ortiz','696325036');
+INSERT INTO inciensosdesevilla.cliente (correo,direccion,dni,id_usuario,nombre,apellido,telefono) VALUES ('elena@gmail.com','Calle Segovia, 6','54286303L',8,'Elena','Montes Marin','696325056');
 
 -- INSERT INTO PRODUCTO
 
@@ -273,16 +274,16 @@ INSERT INTO INCIENSOSDESEVILLA.RESENIA (id_cliente, texto, id_producto,valoracio
                                                                                              (1, 'La mejor elección para los amantes del incienso tradicional. Un producto excelente.',5,3,'2023-04-26'),
                                                                                              (2, 'Huele muy bien, aunque esperaba que fuera un poco más fuerte. Aún así, es una buena compra.',6,1,'2024-02-12'),
                                                                                              (1, 'Un incienso con notas dulces y especiadas que lo hacen único. Volveré a comprarlo.',7,2,'2024-01-31'),
-                                                                                             (2, 'Excelente calidad y una fragancia que envuelve todo el ambiente de forma sutil.',2,1,'2024-02-05');
+                                                                                             (3, 'Excelente calidad y una fragancia que envuelve todo el ambiente de forma sutil.',2,1,'2024-02-05');
 
 
 -- Insertar pedidos en la tabla PEDIDO
-INSERT INTO INCIENSOSDESEVILLA.PEDIDO (fecha, total, id_cliente, estado,direccion_entrega) VALUES
-                                                                                               ('2025-02-07', 110.70, 1, 1,'Calle Martinez Montañez , 89'),
-                                                                                               ('2025-02-07', 175.45, 2, 2, 'Calle Juan De Mesa, 25'),
-                                                                                               ('2025-02-07', 210.85, 3, 3, 'Calle Luisa Roldán, 63 '),
-                                                                                               ('2025-02-07', 98.20, 4, 1, 'Calle Enrique Orce Mármol , 18 , 3ºB'),
-                                                                                               ('2025-02-07', 260.55, 5, 2,'Calle Bienvenido Puelles, 9');
+INSERT INTO INCIENSOSDESEVILLA.PEDIDO (fecha, total, id_cliente, estado,direccion_entrega, nombre) VALUES
+                                                                                                       ('2025-02-07', 110.70, 1, 1,'Calle Martinez Montañez , 89','PED-000001'),
+                                                                                                       ('2025-02-07', 175.45, 2, 2, 'Calle Juan De Mesa, 25','PED-000002'),
+                                                                                                       ('2025-02-07', 210.85, 3, 3, 'Calle Luisa Roldán, 63 ','PED-000003'),
+                                                                                                       ('2025-02-07', 98.20, 4, 1, 'Calle Enrique Orce Mármol , 18 , 3ºB','PED-000004'),
+                                                                                                       ('2025-02-07', 260.55, 5, 2,'Calle Bienvenido Puelles, 9','PED-000005');
 
 -- Insertar líneas de pedido en la tabla LINEAPEDIDO;
 INSERT INTO INCIENSOSDESEVILLA.LINEAPEDIDO (id_producto, cantidad, precio_unitario, precio_linea, id_pedido) VALUES
