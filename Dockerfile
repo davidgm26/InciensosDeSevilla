@@ -12,15 +12,15 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libonig-dev \
     libssl-dev \
+    libcurl4-openssl-dev \
+    pkg-config \
     && docker-php-ext-install intl pdo pdo_pgsql pgsql zip opcache
 
+# Instalar la extensión http
+RUN pecl install pecl_http && docker-php-ext-enable http
 
-RUN apt-get update && apt-get install -y libcurl4-openssl-dev && \
-    docker-php-ext-install curl
-
-
-# Instalar Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Instalar Composer correctamente
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # Crear directorio de trabajo
 WORKDIR /var/www/symfony
