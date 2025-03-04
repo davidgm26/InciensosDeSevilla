@@ -14,7 +14,12 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libcurl4-openssl-dev \
     pkg-config \
+    libz-dev \
+    libevent-dev \
     && docker-php-ext-install intl pdo pdo_pgsql pgsql zip opcache
+
+# Instalar la extensión raphf (requerida por pecl_http)
+RUN pecl install raphf && docker-php-ext-enable raphf
 
 # Instalar la extensión http
 RUN pecl install pecl_http && docker-php-ext-enable http
