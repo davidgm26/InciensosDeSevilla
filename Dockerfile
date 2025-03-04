@@ -1,5 +1,5 @@
 # Usa la imagen oficial de PHP con Apache
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 # Instalar dependencias del sistema y extensiones de PHP
 RUN apt-get update && apt-get install -y \
@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install intl pdo pdo_pgsql pgsql zip opcache
 
 # Instalar Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer-
 
 # Crear directorio de trabajo
 WORKDIR /var/www/symfony
