@@ -32,6 +32,8 @@ security:
       roles: [ROLE_CLIENTE, ROLE_ADMIN]
     - path: ^/api/user/.*
       roles: [ROLE_CLIENTE, ROLE_ADMIN]
+    - path: ^/api/user/admin/.*
+      roles: [ ROLE_CLIENTE, ROLE_ADMIN ]
     - path: ^/api/pedido/usuario/all
       roles: [ROLE_CLIENTE, ROLE_ADMIN]
 
