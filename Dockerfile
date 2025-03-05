@@ -18,11 +18,6 @@ RUN apt-get update && apt-get install -y \
     libevent-dev \
     && docker-php-ext-install intl pdo pdo_pgsql pgsql zip opcache
 
-# Instalar la extensión raphf (requerida por pecl_http)
-RUN pecl install raphf && docker-php-ext-enable raphf
-
-# Instalar la extensión http
-RUN pecl install pecl_http && docker-php-ext-enable http
 
 # Instalar Composer correctamente
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
