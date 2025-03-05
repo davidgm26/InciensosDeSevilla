@@ -30,7 +30,7 @@ class PedidoDto
         $dto->fecha = $pedido->getFecha();
         $dto->total = $pedido->getTotal();
         $dto->estado = $pedido->getEstado();
-        $dto->cliente  = ClienteResponse::createClienteDto($pedido->getCliente());
+        $dto->cliente  = ClienteResponse::createClienteResponse($pedido->getCliente());
         $dto->lineasPedidos = $lineas;
         return $dto;
 

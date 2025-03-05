@@ -72,8 +72,6 @@ class PedidoService
             $pedido->addLinea( $this->linPedidoService->createLinPedido($lineaPedido,$pedido));
         }
         $this->entityManager->flush();
-        $this->entityManager->persist($pedido);
-        $this->entityManager->flush();
         return $pedido;
     }
 

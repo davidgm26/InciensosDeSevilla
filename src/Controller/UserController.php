@@ -77,7 +77,7 @@ final class UserController extends AbstractController
     {
         return $this->usuarioService->changeUserStatus((int) $id);
     }
-    #[Route('/admin/editar/{id}', name: 'change_user_status', methods: ['PUT'])]
+    #[Route('/admin/editar/{id}', name: 'change_user_profile', methods: ['PUT'])]
     public function editarUsuario(Request $request,string $id)
     {
         $data = json_decode($request->getContent(),true);
